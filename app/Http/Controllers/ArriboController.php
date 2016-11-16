@@ -99,7 +99,7 @@ class ArriboController extends Controller
     public function postNuevo()
     {
         $validator = Validator::make(Input::all(), [
-            //"SARR_BUQUE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_BUQUE_VIAJE"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
             "SARR_BUQUE_ID"  => "required",
 
         ]);

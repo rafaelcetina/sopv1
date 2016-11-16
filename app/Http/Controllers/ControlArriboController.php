@@ -40,7 +40,7 @@ class ControlArriboController extends Controller
 
 
     public function getSolicitudes(){
-        $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes'];
+        $data = ['table'=>'solicitudes'];
         return view('control_arribos/solicitudes',$data);
     }
 

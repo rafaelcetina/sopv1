@@ -11,8 +11,9 @@ PUER_DOCUMENTO_SAP: 'Documento SAP'};
 var muelles = {MUEL_NOMBRE:'Nombre Muelle', PUER_NOMBRE :'Puerto' , MUEL_NOMBRELARGO: 'Nombre largo', 
 MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIP: 'Descripción', MUEL_TERMINAL: 'Terminal'};
 
-var solicitudes = {SARR_BUQUE_ID:'Embarcación', SARR_BUQUE_VIAJE:'Número de Viaje', SARR_TRAFICO_CLAVE:'Tipo de Trafico', SARR_ACTIVIDADES:'Actividades'}
-var catalogo = {buques: buques, muelles: muelles, puertos:puertos, solicitudes:solicitudes};
+var tcargas = {TCAR_NOMBRE:'Nombre', TCAR_SECTOR: 'Sector'}
+
+var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas };
 var tabla;
 
 function initDT(table){

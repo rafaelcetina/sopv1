@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Catalogos;
 
 use Illuminate\Http\Request;
-use App\sop_Buque;
-use App\sop_Tipo_buque;
+use App\sop_Tcarga;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables;
 
-class BuqueController extends Controller{
+class TcargaController extends Controller{
 
     public function __construct()
     {
@@ -26,19 +25,14 @@ class BuqueController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function getIndex(){
-        return view('cat.index',['table' => 'buques']);
+        return view('cat.index',['table' => 'tcargas']);
     }
 
     public function anyData(){
-	    $buques = sop_Buque::leftJoin('SOP_TIPO_BUQUES', 'SOP_BUQUES.BUQU_TIPO_BUQUE', '=', 'SOP_TIPO_BUQUES.TIBU_ID')
-            ->select('SOP_BUQUES.*', 'SOP_TIPO_BUQUES.TIBU_NOMBRE');
-            
-        return Datatables::of($buques)
-
-        ->addColumn('action', function ($buq) {
-            return '
-                <a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
-                <a href="#" data-id="'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
+	    return Datatables::of(sop_Tcarga::query())
+            ->addColumn('action', function ($tcargas) {
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="tcargas/update/'.$tcargas->TCAR_ID.'" class="btn btn-xs btn-success"><i class="icon md-edit"></i></a>
+                    <a href="#" data-id="'.$tcargas->TCAR_ID.'" class="btn btn-xs btn-danger delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }
@@ -46,11 +40,9 @@ class BuqueController extends Controller{
     public function getCreate(){
 
         $data = [
-            'table' => 'buques',
-            'opcion' => 'null',
-            'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
+            'table' => 'tcargas',
                 ];
-        return view('buques.create', $data);
+        return view('tcargas.create', $data);
     }
 
     /**
@@ -61,14 +53,14 @@ class BuqueController extends Controller{
     
     public function postCreate(){
         $messages = [
-            'BUQU_NOMBRE.unique'  => 'El nombre ya está en uso',
-            'BUQU_MATRICULA.unique' => 'La matricula debe ser única',
+            'TCAR_NOMBRE.unique'  => 'El nombre ya está en uso',
+            'TCAR_NOMBRE.required'  => 'El nombre es requerido',
+            'TCAR_SECTOR.required' => 'El sector es requerido',
         ];
 
         $validator = Validator::make(Input::all(), [
-            "BUQU_NOMBRE"       => "required|unique:SOP_BUQUES",
-            "BUQU_MATRICULA"    => "required|unique:SOP_BUQUES",
-
+            "TCAR_NOMBRE"       => "required|unique:SOP_TCARGAS",
+            "TCAR_SECTOR"       => "required:SOP_TCARGAS",
         ], $messages);
 
 
@@ -79,24 +71,20 @@ class BuqueController extends Controller{
             );
         }
 
-        $Buque = new sop_Buque();
-        $Buque->BUQU_TIPO_BUQUE = Input::get('BUQU_TIPO_BUQUE');
-        $Buque->BUQU_NOMBRE = Input::get('BUQU_NOMBRE');
-        $Buque->BUQU_BANDERA = Input::get('BUQU_BANDERA');
-        $Buque->BUQU_MATRICULA = Input::get('BUQU_MATRICULA');
-        $Buque->save();
+        $Tcarga = new sop_Tcarga();
+        $Tcarga->TCAR_NOMBRE = Input::get('TCAR_NOMBRE');
+        $Tcarga->TCAR_SECTOR = Input::get('TCAR_SECTOR');
+        $Tcarga->save();
         
         return ['aviso' => 'success'];
     }
 
     public function getUpdate($id){
-        $buque = sop_Buque::find($id);
+        $tcarga = sop_Tcarga::find($id);
         $data = [
-            'opcion' => $buque->BUQU_TIPO_BUQUE,
-            'buque' => $buque,
-            'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
+            'tcarga' => $tcarga,
                 ];
-        return view('buques.update', $data);
+        return view('tcargas.update', $data);
     }
 
 

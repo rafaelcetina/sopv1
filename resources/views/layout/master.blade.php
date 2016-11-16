@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="{{ asset('assets/vendor/jt-timepicker/jquery-timepicker.css')}}">
   
   <link rel="stylesheet" href="{{ asset('assets/vendor/alertify/alertify.css')}}">
-  <link rel="stylesheet" href="{{ asset('assets/vendor/notie/notie.css')}}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/notie/notie.css')}}"> --}}
 
   <link rel="stylesheet" href="{{ asset('assets/vendor/flag-icon-css/flag-icon.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/vendor/waves/waves.css')}}">

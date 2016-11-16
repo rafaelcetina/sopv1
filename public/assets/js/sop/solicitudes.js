@@ -39,7 +39,7 @@ function initDT(table){
   });
   
 $("tbody").on('click', '.delete', function(e) {
-alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?.",
+alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?",
   function(){
 
     eliminar(tabla, $(e.currentTarget).data('id'));
