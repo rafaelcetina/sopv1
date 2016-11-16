@@ -22,7 +22,7 @@
       <div class="panel">
         <div class="panel-body">
           <!-- CONTENT GOES HERE -->
-          {!! Form::open(["id"=>"form","autocomplete"=>"off"]) !!}
+        {!! Form::open(["id"=>"form","autocomplete"=>"off"]) !!}
         <!--<form method="post" role="form" autocomplete="off">-->
           @include("arribos._form")
         {!! Form::close() !!}
@@ -32,8 +32,8 @@
 </div>
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
+<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
 <script src="{{ asset('assets/js/Plugin/bootstrap-datepicker.js')}}"></script>
 <script src="{{ asset('assets/js/Plugin/jt-timepicker.js')}}"></script>
 @endpush

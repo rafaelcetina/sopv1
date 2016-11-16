@@ -71,7 +71,7 @@
               </a>
               <ul class="site-menu-sub">
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/buques') }}">
+                  <a class="animsition-link" href="{{ URL::to('arribos/solicitudes') }}">
                     <span class="site-menu-title">SOLICITUDES</span>
                   </a>
                 </li>

@@ -6,17 +6,18 @@
 <div class="row">
   <div class="form-group form-material col-xs-12 col-md-5">
     {!! Form::label("SARR_BUQUE_ID","Embarcación",["class"=>"form-control-label"]) !!}
-    {!! Form::select('SARR_BUQUE_ID', ['Seleciona una opcion'], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
+    {!! Form::select('SARR_BUQUE_ID', ['Seleciona una opcion'], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
   </div>
 
   <div class="form-group form-material col-xs-12 col-md-3">
     {!! Form::label("SARR_TIPO_BUQUE","Tipo de Embarcación",["class"=>"form-control-label"]) !!}
-    {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2"] ) !!}
+    {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
   </div>
   
+    
   <div class="form-group form-material col-xs-12 col-md-2">
     <label class="form-control-label" for="SARR_BUQUE_VIAJE">Viaje:</label>
-    <input type="text" class="form-control" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
+    <input type="text" class="form-control" required="" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
     placeholder="" autocomplete="off" />
   </div>
   <div class="form-group form-material col-xs-12 col-md-2">
@@ -32,34 +33,34 @@
     <label class="form-control-label" for="SARR_ACTIVIDADES">Actividades en el puerto:</label>
     <div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="carga">
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="carga" value="CARGA">
         <label for="carga">Carga</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="descarga">
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="descarga" value="DESCARGA">
         <label for="descarga">Descarga</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="carga2">
-        <label for="carga2">Avituallamiento</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="AVI" value="AVITUALLAMIENTO">
+        <label for="AVI">Avituallamiento</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="descarga2">
-        <label for="descarga2">Reparación</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="REPARACION" value="REPARACION">
+        <label for="REPARACION">Reparación</label>
       </div>
     </div>
     <div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="descarga2">
-        <label for="descarga2">Apoyo</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="APOYO" value="APOYO">
+        <label for="APOYO">Apoyo</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="descarga2">
-        <label for="descarga2">Forzoso</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="FOROZOSO" value="FOROZOSO">
+        <label for="FOROZOSO">Forzoso</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES" id="descarga2">
-        <label for="descarga2">Otros</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="OTROS" value="OTROS">
+        <label for="OTROS">Otros</label>
       </div>
     </div>
   </div>
@@ -73,7 +74,7 @@
       <span class="input-group-addon">
         <i class="icon md-calendar" aria-hidden="true"></i>
       </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETA1">
+      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETA[]">
     </div>
     <!-- Example Basic -->
     <div class="m-lg-0">
@@ -81,7 +82,7 @@
         <span class="input-group-addon">
           <i class="icon md-time" aria-hidden="true"></i>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETA2" />
+        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETA[]" />
       </div>
     </div>
     <!-- End Example Basic -->
@@ -92,7 +93,7 @@
       <span class="input-group-addon">
         <i class="icon md-calendar" aria-hidden="true"></i>
       </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETB1">
+      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETB[]">
     </div>
     <!-- Example Basic -->
     <div class="m-lg-0">
@@ -100,7 +101,7 @@
         <span class="input-group-addon">
           <i class="icon md-time" aria-hidden="true"></i>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETB2" />
+        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETB[]" />
       </div>
     </div>
     <!-- End Example Basic -->
@@ -111,7 +112,7 @@
       <span class="input-group-addon">
         <i class="icon md-calendar" aria-hidden="true"></i>
       </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETD1">
+      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETD[]">
     </div>
     <!-- Example Basic -->
     <div class="m-lg-0">
@@ -119,7 +120,7 @@
         <span class="input-group-addon">
           <i class="icon md-time" aria-hidden="true"></i>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETD2" />
+        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETD[]" />
       </div>
     </div>
     <!-- End Example Basic -->
@@ -173,9 +174,9 @@
   <legend>Historial de viaje</legend>
   <div class="row">
     <div class="form-group form-material col-xs-12 col-md-12">
-      <label class="form-control-label" for="inputBasicFirstName">Últimos diez puertos del itinerario:</label>
+      <label class="form-control-label" for="historial">Últimos diez puertos del itinerario:</label>
       <!-- Example Basic -->
-      <select class="form-control" data-plugin="select2" multiple="" name="SARR_HISTORIAL_PUERTOS" data-placeholder="Últimos diez puertos">
+      <select id="historial" class="form-control" data-plugin="select2" multiple="multiple" name="SARR_HISTORIAL_PUERTOS[]" data-placeholder="Últimos diez puertos">
         <optgroup label="Alaskan/Hawaiian Time Zone">
           <option value="AK">Alaska</option>
           <option value="HI">Hawaii</option>
@@ -259,7 +260,7 @@
   <legend>Documentos</legend>
 <div class="row">
   <div class="form-group form-material col-xs-12 col-md-4">
-    <label class="form-control-label" for="SARR_CREW-LIST">CREW-LIST:</label>
+    <label class="form-control-label" for="SARR_CREW_LIST">CREW-LIST:</label>
     <div class="input-group input-group-file" data-plugin="inputGroupFile">
       <input type="text" class="form-control" readonly="">
       <span class="input-group-btn">
@@ -297,5 +298,5 @@
   <div class="loading"></div>
 </div>
 <div class="form-group form-material">
-  {!! Form::button("<i class='icon md-boat'></i> Enviar solicitud",["type" => "submit","class"=>"btn btn-primary"])!!}
+  {!! Form::button("<i class='icon md-boat'></i> Enviar solicitud",["type" => "submit","class"=>"btn btn-primary btn-submit"])!!}
 </div>

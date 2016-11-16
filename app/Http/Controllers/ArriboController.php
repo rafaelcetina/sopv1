@@ -11,6 +11,7 @@ use App\sop_Buque;
 use App\sop_Tipo_trafico;
 use App\sop_Puerto;
 use App\sop_Muelle;
+use App\sop_Solicitudes_arribo;
 
 class ArriboController extends Controller
 {
@@ -52,10 +53,10 @@ class ArriboController extends Controller
     public function getNuevo(){
         
         $puertos = sop_Puerto::lists('PUER_NOMBRE','PUER_ID');
-        $puertos->prepend(' -- Seleccione una Opción -- ', 0);
+        $puertos->prepend(' -- Seleccione una Opción -- ', '');
 
         $types = sop_Tipo_buque::lists('TIBU_NOMBRE','TIBU_ID');
-        $types->prepend(' -- Seleccione una Opción -- ', 0);
+        $types->prepend(' -- Seleccione una Opción -- ', '');
         
         $data = [
             'opcion' => 'null',
@@ -70,10 +71,16 @@ class ArriboController extends Controller
         return view('arribos/nuevo', $data);
     }
 
+
+    public function getSolicitudes(){
+        
+    }
+
     public function postNuevo()
     {
         $validator = Validator::make(Input::all(), [
-            "SARR_BUQUE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            //"SARR_BUQUE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_BUQUE_ID"  => "required",
 
         ]);
         if ($validator->fails()) {
@@ -82,16 +89,31 @@ class ArriboController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             );
         }
-        dd(Input::all());
+        
+        //dd(Input::all());
+        
 
-        $Sarr = new sop_Puerto();
-        $Sarr->SARR_BUQUE_ID = Input::get('BUQUE_ID');
-        $Sarr->SARR_NOMBRE = Input::get('SARR_NOMBRE');
-        $Sarr->SARR_NOMBRELARGO = Input::get('SARR_NOMBRELARGO');
-        $Sarr->SARR_CALADO = Input::get('SARR_CALADO');
-        $Sarr->SARR_LONGITUD = Input::get('SARR_LONGITUD');
-        $Sarr->SARR_DESCRIP = Input::get('SARR_DESCRIP');
-        $Sarr->SARR_TERMINAL = Input::get('SARR_TERMINAL');
+        $Sarr = new sop_Solicitudes_arribo();
+        $Sarr->SARR_BUQUE_ID        = Input::get('SARR_BUQUE_ID');
+        $Sarr->SARR_USER_ID         = Auth::user()->id;
+        $Sarr->SARR_BUQUE_VIAJE     = Input::get('SARR_BUQUE_VIAJE');
+        $Sarr->SARR_TRAFICO_CLAVE   = Input::get('SARR_TRAFICO_CLAVE');
+        $Sarr->SARR_ACTIVIDADES     = Input::get('SARR_ACTIVIDADES');
+        $Sarr->SARR_ETA             = Input::get('SARR_ETA');
+        $Sarr->SARR_ETB             = Input::get('SARR_ETB');
+        $Sarr->SARR_ETD             = Input::get('SARR_ETD');
+        $Sarr->SARR_BANDA_ATRAQUE   = Input::get('SARR_BANDA_ATRAQUE');
+        $Sarr->SARR_CALADA_POPA     = Input::get('SARR_CALADA_POPA');
+        $Sarr->SARR_CALADA_PROA     = Input::get('SARR_CALADA_PROA');
+        $Sarr->SARR_PUERTO_ID       = Input::get('SARR_PUERTO_ID');
+        $Sarr->SARR_MUELLE_ID       = Input::get('SARR_MUELLE_ID');
+        $Sarr->SARR_DESTINO         = Input::get('SARR_DESTINO');
+        $Sarr->SARR_OPERADORA       = Input::get('SARR_OPERADORA');
+        $Sarr->SARR_OBSERVACIONES   = Input::get('SARR_OBSERVACIONES');
+        $Sarr->SARR_HISTORIAL_PUERTOS = Input::get('SARR_HISTORIAL_PUERTOS');
+        $Sarr->SARR_CREW_LIST       = Input::get('SARR_CREW_LIST');
+    
+        
         $Sarr->save();
         
         return ['aviso' => 'success'];

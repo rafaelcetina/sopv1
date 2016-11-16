@@ -117,16 +117,13 @@
     $('.site-menu-item a').each(function(){
       var str = document.location.href;
       
-      console.log('Location: '+str);
-      console.log($(this).attr('href'));
+      //console.log('Location: '+str);
+      //console.log($(this).attr('href'));
       
       if(str == $(this).attr('href')){
         
         $(this).closest('li').parent().parent().addClass('active open');
-        
-
-
-
+      
         $(this).closest('li').addClass('active');
 
     }
