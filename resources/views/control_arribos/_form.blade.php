@@ -55,8 +55,8 @@
         <label for="APOYO">Apoyo</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="FORZOSO" value="FORZOSO">
-        <label for="FORZOSO">Forzoso</label>
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="FOROZOSO" value="FOROZOSO">
+        <label for="FOROZOSO">Forzoso</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
         <input type="checkbox" name="SARR_ACTIVIDADES[]" id="OTROS" value="OTROS">

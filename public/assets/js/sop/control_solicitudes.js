@@ -2,17 +2,8 @@ $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
-var buques = {BUQU_NOMBRE:'Nombre Buque', BUQU_BANDERA:'Bandera', TIBU_NOMBRE:'Tipo de Buque', 
-BUQU_MATRICULA: 'Matricula'};
-
-var puertos = {PUER_NOMBRE:'Nombre Puerto', PUER_PUERTO_SAP:'Puerto SAP', PUER_CAPITAN:'Capitan de Puerto', 
-PUER_DOCUMENTO_SAP: 'Documento SAP'};
-
-var muelles = {MUEL_NOMBRE:'Nombre Muelle', PUER_NOMBRE :'Puerto' , MUEL_NOMBRELARGO: 'Nombre largo', 
-MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIP: 'Descripción', MUEL_TERMINAL: 'Terminal'};
-
-var solicitudes = {SARR_BUQUE_ID:'Embarcación', SARR_BUQUE_VIAJE:'Número de Viaje', SARR_TRAFICO_CLAVE:'Tipo de Trafico', SARR_ACTIVIDADES:'Actividades'}
-var catalogo = {buques: buques, muelles: muelles, puertos:puertos, solicitudes:solicitudes};
+var solicitudes = {BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
+var catalogo = {solicitudes:solicitudes};
 var tabla;
 
 function initDT(table){
@@ -36,7 +27,7 @@ function initDT(table){
     processing: false,
     serverSide: true,
     language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/catalogos/'+tabla+'/data',
+    ajax: 'http://localhost:8000/control_arribos/data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [
