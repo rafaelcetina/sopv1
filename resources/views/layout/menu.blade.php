@@ -71,7 +71,7 @@
               </a>
               <ul class="site-menu-sub">
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/buques') }}">
+                  <a class="animsition-link" href="{{ URL::to('arribos/solicitudes') }}">
                     <span class="site-menu-title">SOLICITUDES</span>
                   </a>
                 </li>
@@ -92,6 +92,31 @@
                 </li>
               </ul>
             </li>
+            @endif
+            <!-- FIN DE SECCION PARA AGENCIA NAVIERA -->
+
+            <!-- ELEMENTOS SOLO DISPONIBLES PARA AGENTE TRAFICO -->
+            @if (Auth::user()->id_tipo_usuario  == 3)
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)">
+                <i class="site-menu-icon md-assignment" aria-hidden="true"></i>
+                <span class="site-menu-title">ARRIBOS / ATRAQUES</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="{{ URL::to('control_arribos/solicitudes') }}">
+                    <span class="site-menu-title">SOLICITUDES</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="{{ URL::to('catalogos/programar') }}">
+                    <span class="site-menu-title">CALENDARIZADO</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            
             @endif
             <!-- FIN DE SECCION PARA AGENCIA NAVIERA -->
 

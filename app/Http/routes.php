@@ -29,8 +29,10 @@ Route::group(['middleware'=>'App\Http\Middleware\IsAdmin'], function(){
 	Route::controller('usuarios', 'UsuarioController');
 });
 
-
-
 Route::group(['middleware' => 'App\Http\Middleware\IsNaviera'], function(){
     Route::controller('arribos', 'ArriboController');
+});
+
+Route::group(['middleware' => 'App\Http\Middleware\IsAgente'], function(){
+    Route::controller('control_arribos', 'ControlArriboController');
 });
