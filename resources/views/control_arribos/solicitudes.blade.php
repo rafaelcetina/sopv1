@@ -21,7 +21,7 @@
     <div class="page-content">
       <div class="panel">
         <div class="panel-body">
-          <table class="table table-responsive dataTable w-full" id="<?=$table;?>-table">
+          <table class="table dataTable w-full" id="<?=$table;?>-table">
             <thead>
             </thead>
             <tfoot>

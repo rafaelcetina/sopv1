@@ -11,6 +11,8 @@ use App\sop_Buque;
 use App\sop_Tipo_trafico;
 use App\sop_Puerto;
 use App\sop_Muelle;
+use App\sop_Tcarga;
+use App\sop_Tproducto;
 use App\sop_Solicitudes_arribo;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
@@ -51,14 +53,42 @@ class ArriboController extends Controller
         }
     }
 
+    public function getTproductos(Request $request, $id){
+        if ($request->ajax()) {
+            $tproductos = sop_Tproducto::tproductos($id);
+            return response()->json($tproductos);
+        }
+    }
 
-    public function getNuevo(){
+    public function getUnidad(Request $request, $id){
+        if ($request->ajax()) {
+            $tproducto = sop_Tproducto::tproducto_uni($id);
+            return response()->json($tproducto);
+        }
+    }
+
+
+    public function getNuevo(Request $request){
         
+        if (!$request->session()->has('solicitud_id_tmp')) {
+            Auth::user()->id;
+            $solicitud_id_tmp = random_int(111, 999).Auth::user()->id;
+            // Store a piece of data in the session...
+            session(['solicitud_id_tmp' => $solicitud_id_tmp]);
+        }
+
+        $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
+        
+        //echo $solicitud_id_tmp;
+
         $puertos = sop_Puerto::lists('PUER_NOMBRE','PUER_ID');
         $puertos->prepend(' -- Seleccione una Opción -- ', '');
 
         $types = sop_Tipo_buque::lists('TIBU_NOMBRE','TIBU_ID');
         $types->prepend(' -- Seleccione una Opción -- ', '');
+
+        $tcargas = sop_Tcarga::lists('TCAR_NOMBRE','TCAR_ID');
+        $tcargas->prepend(' -- Seleccione una Opción -- ', '');
         
         $data = [
             'opcion' => 'null',
@@ -66,6 +96,7 @@ class ArriboController extends Controller
             //'buques' => $buques,
             'trafico' => sop_Tipo_trafico::lists('TTRA_NOMBRE', 'TTRA_CLAVE'),
             'puertos' => $puertos,
+            'tcargas' => $tcargas,
             //'puertos' => sop_Puerto::lists('PUER_NOMBRE','PUER_ID'),
             //'muelles' => sop_Muelle::lists('MUEL_NOMBRE', 'MUEL_ID'),
                 ];
@@ -96,10 +127,10 @@ class ArriboController extends Controller
             ->make(true);
     }
 
-    public function postNuevo()
-    {
+    public function postNuevo(){
+        
         $validator = Validator::make(Input::all(), [
-            //"SARR_BUQUE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_BUQUE_VIAJE"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
             "SARR_BUQUE_ID"  => "required",
 
         ]);

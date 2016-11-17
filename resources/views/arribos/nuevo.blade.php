@@ -33,8 +33,11 @@
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
-<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/sop/cat.js') }}"></script> --}}
 <script src="{{ asset('assets/js/Plugin/bootstrap-datepicker.js')}}"></script>
 <script src="{{ asset('assets/js/Plugin/jt-timepicker.js')}}"></script>
+<script>
+  initDT('cargas');
+</script>
 @endpush
     

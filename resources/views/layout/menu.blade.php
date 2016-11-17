@@ -31,6 +31,17 @@
                     <span class="site-menu-title">MUELLES</span>
                   </a>
                 </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="{{ URL::to('catalogos/tcargas') }}">
+                    <span class="site-menu-title">TIPO DE CARGAS</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="{{ URL::to('catalogos/tproductos') }}">
+                    <span class="site-menu-title">TIPO DE PRODUCTOS</span>
+                  </a>
+                </li>
+
               </ul>
             </li>
             <li class="site-menu-item">

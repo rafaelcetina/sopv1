@@ -1,18 +1,3 @@
-/**********
-$('#PUER_ID').on('change', function(e){
-    //console.log(e);
-    var PUER_ID = e.target.value;
-
-    $.getJSON('/arribos/nuevo/ajax-muelles?PUER_ID=' + PUER_ID, function(data) {
-        //console.log(data);
-        $('#MUEL_ID').empty();
-        $.each(data, function(index, subCatObj){
-            $('#MUEL_ID').append(''+subCatObj.MUEL_NOMBRE+'');
-            //alert(subCatObj);
-        });
-    });
-});
-*******/
 $('#SARR_PUERTO_ID').change(function(e){
     $.get("muelles/"+e.target.value+"", function(response, state){
         //&console.log(response);
@@ -37,11 +22,11 @@ $('#SARR_TIPO_BUQUE').change(function(e){
 $("#form").submit(function (e) {
         e.preventDefault();
         $('.loading').show();
-        //$('.btn-submit').hide();
+        
         var form = $(this);
         var data = new FormData($(this)[0]);
         var url = form.attr("action");
-        //console.log($('#historial').select2('data'));
+        
         var actividades = new Array();
         $("input:checkbox[name=SARR_ACTIVIDADES]:checked").each(function(){
             actividades.push($(this).val());

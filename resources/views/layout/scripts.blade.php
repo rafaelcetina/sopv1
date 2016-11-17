@@ -51,7 +51,7 @@
   <script src="{{ asset('assets/vendor/datatables-tabletools/dataTables.tableTools.js')}}"></script>
 
   <script src="{{ asset('assets/vendor/alertify/alertify.js')}}"></script>
-  <script src="{{ asset('assets/vendor/notie/notie.js')}}"></script>
+  {{-- <script src="{{ asset('assets/vendor/notie/notie.js')}}"></script> --}}
   <!-- Scripts -->
   <script src="{{ asset( 'assets/js/State.js')}}"></script>
   <script src="{{ asset( 'assets/js/Component.js')}}"></script>

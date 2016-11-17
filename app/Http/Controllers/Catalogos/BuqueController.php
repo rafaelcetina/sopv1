@@ -36,14 +36,12 @@ class BuqueController extends Controller{
         return Datatables::of($buques)
 
         ->addColumn('action', function ($buq) {
-                return '
-                    <a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
+            return '
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }
-            //->get(10);
-
 
     public function getCreate(){
 
@@ -52,11 +50,7 @@ class BuqueController extends Controller{
             'opcion' => 'null',
             'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
                 ];
-
         return view('buques.create', $data);
-
-        //return view('buques.create', array('table' => 'buques'));
-
     }
 
     /**
@@ -95,18 +89,14 @@ class BuqueController extends Controller{
         return ['aviso' => 'success'];
     }
 
-    public function getUpdate($id)
-    {
+    public function getUpdate($id){
         $buque = sop_Buque::find($id);
         $data = [
             'opcion' => $buque->BUQU_TIPO_BUQUE,
             'buque' => $buque,
             'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
                 ];
-
         return view('buques.update', $data);
-
-        //return view('buques.update', ['buque' => sop_Buque::find($id)]);
     }
 
 
@@ -118,8 +108,7 @@ class BuqueController extends Controller{
         ];
 
         $Buque = sop_Buque::find($id);
-        //var_dump($Buque);
-
+       
         $rules = ["BUQU_BANDERA" => "required"];
 
         if ($Buque->BUQU_NOMBRE != Input::get('BUQU_NOMBRE')){
@@ -154,6 +143,4 @@ class BuqueController extends Controller{
         $id = Input::get('id');
         sop_Buque::destroy($id);
     }
-
-
 }
