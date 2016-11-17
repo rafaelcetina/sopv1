@@ -21,7 +21,7 @@
     placeholder="" autocomplete="off" />
   </div>
   <div class="form-group form-material col-xs-12 col-md-2">
-    <button class="btn btn-primary">Viajes Buque</button>
+    <button type="button" class="btn btn-primary">Viajes Buque</button>
   </div>
 </div>
 <div class="row">
@@ -177,23 +177,6 @@
       <label class="form-control-label" for="historial">Últimos diez puertos del itinerario:</label>
       <!-- Example Basic -->
       <select id="historial" class="form-control" data-plugin="select2" multiple="multiple" name="SARR_HISTORIAL_PUERTOS[]" data-placeholder="Últimos diez puertos">
-        <optgroup label="Central Time Zone">
-          <option value="AL">Alabama</option>
-          <option value="AR">Arkansas</option>
-          <option value="IL">Illinois</option>
-          <option value="IA">Iowa</option>
-          <option value="KS">Kansas</option>
-          <option value="KY">Kentucky</option>
-          <option value="LA">Louisiana</option>
-          <option value="MN">Minnesota</option>
-          <option value="MS">Mississippi</option>
-          <option value="MO">Missouri</option>
-          <option value="OK">Oklahoma</option>
-          <option value="SD">South Dakota</option>
-          <option value="TX">Texas</option>
-          <option value="TN">Tennessee</option>
-          <option value="WI">Wisconsin</option>
-        </optgroup>
       </select>
       <!-- End Example Basic -->
     </div>
@@ -201,37 +184,17 @@
 </fieldset>
 <fieldset>
   <legend>Datos de carga</legend>
-  <div class="row">
-  <div class="form-group form-material col-xs-6 col-md-3">
-    <label class="form-control-label" for="inputBasicFirstName">Trafico:</label>
-    <select name="" id="" class="form-control">
-      <option value="ALTURA_CARGA">ALTURA - CARGA</option>
-      <option value="ALTURA_DESCARGA">ALTURA - DESCARGA</option>
-      <option value="CABOTAJE">CABOTAJE</option>
-    </select>
-    <div class="checkbox-custom checkbox-default checkbox-inline">
-      <input type="checkbox" name="CARR_PELIGRO" id="PELIGRO">
-      <label for="PELIGRO">Peligroso</label>
-    </div>
-  </div>
-  <div class="form-group form-material col-xs-6 col-md-3">
-    <label class="form-control-label" for="inputBasicFirstName">Tipo:</label>
-    
-  </div>
-  <div class="form-group form-material col-xs-8 col-md-4">
-    <label class="form-control-label" for="inputBasicFirstName">DESRIPCIÓN:</label>
-    
-  </div>
-  <div class="form-group form-material col-xs-4 col-md-2">
-    <div class="input-group">
-      <label class="form-control-label" for="inputBasicFirstName">UNI: </label>
-      <input type="text" class="form-control" id="inputTextCurrent" autocomplete="off">
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-xs btn-primary waves-effect" id="exampleTimeButton">AGREGAR</button>
-      </span>
-    </div>
-  </div>
-</div>
+  <a class="btn btn-sm btn-primary" data-toggle="site-sidebar" href="javascript:void(0)" title="Nuevo" data-url="../cargas/nuevo">
+        <i class="icon md-plus" aria-hidden="true"></i>Añadir carga
+      </a>
+
+  <table class="table dataTable w-full" id="cargas-table">
+    <thead>
+    </thead>
+    <tfoot>
+    </tfoot>
+  </table>
+
 </fieldset>
 <fieldset>
   <legend>Documentos</legend>

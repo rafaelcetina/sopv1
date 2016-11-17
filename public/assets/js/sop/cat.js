@@ -13,7 +13,9 @@ MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIP: 'Descripción', 
 
 var tcargas = {TCAR_NOMBRE:'Nombre', TCAR_SECTOR: 'Sector'}
 
-var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas };
+var tproductos = {TPRO_NOMBRE:'Nombre', TPRO_UNIDAD: 'Unidad', TCAR_NOMBRE:'Tipo de Carga'}
+
+var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas, tproductos:tproductos };
 var tabla;
 
 function initDT(table){

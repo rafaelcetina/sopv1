@@ -24,6 +24,7 @@ Route::group(['prefix'=> 'catalogos', 'namespace' => 'Catalogos', 'middleware' =
 	Route::controller('puertos', 'PuertoController');
 	Route::controller('buques', 'BuqueController');
 	Route::controller('tcargas', 'TcargaController');
+	Route::controller('tproductos', 'TproductoController');
 });
 
 Route::group(['middleware'=>'App\Http\Middleware\IsAdmin'], function(){
@@ -32,6 +33,7 @@ Route::group(['middleware'=>'App\Http\Middleware\IsAdmin'], function(){
 
 Route::group(['middleware' => 'App\Http\Middleware\IsNaviera'], function(){
     Route::controller('arribos', 'ArriboController');
+    Route::controller('cargas', 'CargaController');
 });
 
 Route::group(['middleware' => 'App\Http\Middleware\IsAgente'], function(){

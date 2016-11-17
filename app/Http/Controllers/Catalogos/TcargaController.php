@@ -90,24 +90,18 @@ class TcargaController extends Controller{
 
     public function postUpdate($id){
         $messages = [
-            'BUQU_NOMBRE.unique'  => 'El nombre ya está en uso',
-            'BUQU_MATRICULA.unique' => 'La matricula debe ser única',
-            'BUQU_BANDERA.required' => 'La bandera no está espeficada'
+            'TCAR_NOMBRE.unique'  => 'El nombre ya está en uso',
         ];
 
-        $Buque = sop_Buque::find($id);
+        $Tcarga = sop_Tcarga::find($id);
        
-        $rules = ["BUQU_BANDERA" => "required"];
+        $rules = ["TCAR_SECTOR" => "required"];
 
-        if ($Buque->BUQU_NOMBRE != Input::get('BUQU_NOMBRE')){
+        if ($Tcarga->TCAR_NOMBRE != Input::get('TCAR_NOMBRE')){
 
-            $rules += ['BUQU_NOMBRE' => 'required|unique:SOP_BUQUES'];
+            $rules += ['TCAR_NOMBRE' => 'required|unique:SOP_TCARGAS'];
         }
 
-        if ($Buque->BUQU_MATRICULA != Input::get('BUQU_MATRICULA')){
-
-            $rules += ['BUQU_MATRICULA' => 'required|unique:SOP_BUQUES'];
-        }
 
         $validator = Validator::make(Input::all(), $rules, $messages);
         
@@ -118,17 +112,15 @@ class TcargaController extends Controller{
             );
         }
         
-        $Buque->BUQU_TIPO_BUQUE = Input::get('BUQU_TIPO_BUQUE');
-        $Buque->BUQU_NOMBRE = Input::get('BUQU_NOMBRE');
-        $Buque->BUQU_BANDERA = Input::get('BUQU_BANDERA');
-        $Buque->BUQU_MATRICULA = Input::get('BUQU_MATRICULA');
-        $Buque->save();
+        $Tcarga->TCAR_NOMBRE = Input::get('TCAR_NOMBRE');
+        $Tcarga->TCAR_SECTOR = Input::get('TCAR_SECTOR');
+        $Tcarga->save();
 
         return ['aviso' => 'finish'];
     }
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Buque::destroy($id);
+        sop_Tcarga::destroy($id);
     }
 }

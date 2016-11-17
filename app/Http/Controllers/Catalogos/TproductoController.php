@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers\Catalogos;
+
+use Illuminate\Http\Request;
+use App\sop_Tproducto;
+use App\sop_Tcarga;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Yajra\Datatables\Datatables;
+
+class TproductoController extends Controller{
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getIndex(){
+        return view('cat.index',['table' => 'tproductos']);
+    }
+
+    public function anyData(){
+
+	    $tproductos = sop_Tproducto::leftJoin('SOP_TCARGAS', 'SOP_TPRODUCTOS.TPRO_TCAR_ID', '=', 'SOP_TCARGAS.TCAR_ID')
+            ->select('SOP_TPRODUCTOS.*', 'SOP_TCARGAS.TCAR_NOMBRE');
+            
+        return Datatables::of($tproductos)
+
+            ->addColumn('action', function ($tpro) {
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="tproductos/update/'.$tpro->TPRO_ID.'" class="btn btn-xs btn-success"><i class="icon md-edit"></i></a>
+                    <a href="#" data-id="'.$tpro->MUEL_ID.'" class="btn btn-xs btn-danger delete"><i class="icon md-delete"></i></a>';
+            })
+            ->make(true);
+    }
+
+    public function getCreate(){
+
+        $data = [
+            'table' => 'tproductos',
+            'opcion' => 'null',
+            'tcargas' => sop_Tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
+                ];
+
+        return view('tproductos.create', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    
+    public function postCreate(){
+        $messages = [
+            'TPRO_NOMBRE.unique'  => 'El nombre ya está en uso',
+            'TPRO_NOMBRE.required'  => 'El nombre es requerido',
+            'TPRO_UNIDAD.required' => 'La unidad es requerida',
+        ];
+
+        $validator = Validator::make(Input::all(), [
+            "TPRO_NOMBRE"       => "required|unique:SOP_TPRODUCTOS",
+            "TPRO_UNIDAD"       => "required:SOP_TPRODUCTOS",
+        ], $messages);
+
+
+        if ($validator->fails()) {
+            return array(
+                'fail' => true,
+                'errors' => $validator->getMessageBag()->toArray()
+            );
+        }
+
+        $Tproducto = new sop_Tproducto();
+        $Tproducto->TPRO_NOMBRE = Input::get('TPRO_NOMBRE');
+        $Tproducto->TPRO_UNIDAD = Input::get('TPRO_UNIDAD');
+        $Tproducto->TPRO_TCAR_ID = Input::get('TPRO_TCAR_ID');
+        $Tproducto->save();
+        
+        return ['aviso' => 'success'];
+    }
+
+    public function getUpdate($id){
+        $tproducto = sop_Tproducto::find($id);
+        $data = [
+            'opcion' => $tproducto->TPRO_TCAR_ID,
+            'tproducto' => $tproducto,
+            'tcargas' => sop_Tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
+                ];
+        return view('tproductos.update', $data);
+    }
+
+
+    public function postUpdate($id){
+        $messages = [
+            'TPRO_NOMBRE.unique'  => 'El nombre ya está en uso',
+        ];
+
+        $Tproducto = sop_Tproducto::find($id);
+       
+        $rules = ["TPRO_UNIDAD" => "required"];
+
+        if ($Tproducto->TPRO_NOMBRE != Input::get('TPRO_NOMBRE')){
+
+            $rules += ['TPRO_NOMBRE' => 'required|unique:SOP_TPRODUCTOS'];
+        }
+
+
+        $validator = Validator::make(Input::all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            return array(
+                'fail' => true,
+                'errors' => $validator->getMessageBag()->toArray()
+            );
+        }
+        
+        $Tproducto->TPRO_NOMBRE = Input::get('TPRO_NOMBRE');
+        $Tproducto->TPRO_UNIDAD = Input::get('TPRO_UNIDAD');
+        $Tproducto->TPRO_TCAR_ID = Input::get('TPRO_TCAR_ID');
+        $Tproducto->save();
+
+        return ['aviso' => 'finish'];
+    }
+
+    public function postDelete(){
+        $id = Input::get('id');
+        sop_Tcarga::destroy($id);
+    }
+}
