@@ -101,13 +101,21 @@ class ArriboController extends Controller
             //'muelles' => sop_Muelle::lists('MUEL_NOMBRE', 'MUEL_ID'),
                 ];
 
-        return view('arribos/nuevo', $data);
+        if(\Request::ajax()) {
+           return view('arribos/content_nuevo', $data);
+        } else {
+            return view('arribos/nuevo', $data);
+        }    
     }
 
 
     public function getSolicitudes(){
         $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes'];
-        return view('arribos/solicitudes',$data);
+        if(\Request::ajax()) {
+           return view('arribos/content_solicitudes', $data);
+        } else {
+            return view('arribos/solicitudes',$data);
+        }   
     }
 
     public function anyData(){
