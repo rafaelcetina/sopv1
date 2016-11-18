@@ -182,7 +182,7 @@
     </div>
   </div>
 </fieldset>
-<fieldset>
+<!--<fieldset>
   <legend>Datos de carga</legend>
   <a class="btn btn-sm btn-primary" data-toggle="site-sidebar" href="javascript:void(0)" title="Nuevo" data-url="../cargas/nuevo">
         <i class="icon md-plus" aria-hidden="true"></i>Añadir carga
@@ -195,7 +195,7 @@
     </tfoot>
   </table>
 
-</fieldset>
+</fieldset>-->
 <fieldset>
   <legend>Documentos</legend>
 <div class="row">
