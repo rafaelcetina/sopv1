@@ -7,7 +7,7 @@ var usuarios = {tipo:'Tipo', usuario:'Usuario', email:'E-mail', nombre: 'Nombre'
 var catalogo = {usuarios: usuarios};
 var tabla;
 
-function initDT(table){
+function initDT_users(table){
   tabla = table;
   html ='<tr>';
   campos=[];

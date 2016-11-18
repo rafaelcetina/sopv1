@@ -14,8 +14,12 @@ use App\sop_Muelle;
 use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index_ajax');
 
 Route::auth();
+
+Route::controller('home', 'HomeController');
+
 
 
 // ADMINISTRADOR

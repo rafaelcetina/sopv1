@@ -18,7 +18,7 @@ var tproductos = {TPRO_NOMBRE:'Nombre', TPRO_UNIDAD: 'Unidad', TCAR_NOMBRE:'Tipo
 var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas, tproductos:tproductos };
 var tabla;
 
-function initDT(table){
+function initDT_cat(table){
   tabla = table;
   html ='<tr>';
   campos=[];

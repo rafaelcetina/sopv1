@@ -42,6 +42,8 @@
   <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/font-awesome.css')}}">
 
   <link rel="stylesheet" href="{{ asset('assets/css/login-v2.css')}}">
+
+  <link rel="stylesheet" href="{{ asset('assets/css/nprogress.css')}}">
   <!-- Fonts -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/material-design/material-design.min.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/fonts/brand-icons/brand-icons.min.css')}}">
@@ -58,54 +60,25 @@
   <script>
   Breakpoints();
   </script>
-  <style>
-  .loading {
-        background: lightgoldenrodyellow url('{{asset('assets/img/processing.gif')}}') no-repeat center 65%;
-        height: 80px;
-        width: 100px;
-        position: fixed;
-        border-radius: 4px;
-        left: 50%;
-        top: 50%;
-        margin: -40px 0 0 -50px;
-        z-index: 2000;
-        display: none;
-    }
-    .dataTable thead, tfoot{
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#606c88+0,3f4c6b+100;Grey+3D+%232 */
-background: rgb(96,108,136); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
-
-
-  color: #ffffff !important;
-  font-weight: 600;
-  font-size: 1.1em;
-
-    }
-    .dataTable thead th, tfoot th{
-      
-      color: #ffffff !important;
-    }
-    .sorting_disabled{
-      width: 100px !important;
-    }
-    .dataTable tbody tr:nth-child(even) {
-      background: #D7E7F4;
-    }
-    .dataTable tbody tr:nth-child(odd) {
-      background: #ebf1f6;
-    }
-  </style>
   @stack('estilos')
 </head>
 
 @include('layout.nav')
 @include('layout.menu')
-
-@yield('content')
+<div class="page" id="content">
+  @yield('content')
+</div>
+<div class="loading demo-4">
+  <div class="wrapper">
+      <div class="inner">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+  </div>
+</div>
 
 @include('layout.footer')
 <!-- End Page -->

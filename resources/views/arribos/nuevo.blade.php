@@ -8,7 +8,7 @@
 <!-- Page -->
 <!-- End Page -->
   <!-- Panel Table Individual column searching -->
-<div class="page">
+{{-- <div class="page"> --}}
     <div class="page-header">
       <h1 class="page-title">Solicitud de Arribo/Atraque</h1>
       <ol class="breadcrumb">
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>  
-</div>
+{{-- </div> --}}
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>

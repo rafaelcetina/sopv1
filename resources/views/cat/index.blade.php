@@ -9,4 +9,9 @@
 <!-- End Page -->
   @include('cat.content')
 @endsection
-    
+@push('scripts')
+<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
+<script>
+  initDT_cat('<?=$table;?>');
+</script>
+@endpush

@@ -99,8 +99,8 @@ class CargaController extends Controller
         return Datatables::of($cargas)
 
             ->addColumn('action', function ($cargas) {
-                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="cargas/update/'.$cargas->CARR_ID.'" class="btn btn-xs btn-success"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$cargas->CARR_ID.'" class="btn btn-xs btn-danger delete"><i class="icon md-delete"></i></a>';
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="cargas/update/'.$cargas->CARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$cargas->CARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

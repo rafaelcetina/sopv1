@@ -95,13 +95,17 @@
   <script src="{{ asset( 'assets/js/Plugin/jquery-strength.js')}}"></script>
   <script src="{{ asset( 'assets/js/Plugin/multi-select.js')}}"></script>
   <script src="{{ asset( 'assets/js/Plugin/jquery-placeholder.js')}}"></script>
+  
+  <script src="{{ asset( 'assets/js/nprogress.js')}}"></script>
 
   <script src="{{ asset('assets/js/Plugin/jquery-placeholder.js')}}"></script>
   <script src="{{ asset('assets/js/Plugin/material.js')}}"></script>
   <!-- <script src="{{ asset('assets/examples/js/forms/advanced.js')}}"></script> -->
   <script src="{{ asset('assets/js/register.js')}}"></script>
+  <script src="{{ asset('assets/js/sop/nav.js')}}"></script>
+  {{-- <script src="{{ asset('assets/js/sop/usuarios.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/sop/cat.js') }}"></script> --}}
   @stack('scripts')
-
   <script>
   (function(document, window, $) {
     'use strict';
@@ -115,6 +119,7 @@
       // $('#datetimepicker1').datetimepicker(); 
 
     $('.site-menu-item a').each(function(){
+      
       var str = document.location.href;
       
       //console.log('Location: '+str);

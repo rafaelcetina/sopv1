@@ -6,7 +6,7 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->  
 <!-- Page -->
-<div class="page">
+{{-- <div class="page"> --}}
     <div class="page-header">
       <h1 class="page-title">Dashboard</h1>
       <ol class="breadcrumb">
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>  
-</div>
+{{-- </div> --}}
 <!-- End Page -->
-
 @endsection
+

@@ -26,7 +26,12 @@ class BuqueController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function getIndex(){
-        return view('cat.index',['table' => 'buques']);
+        if(\Request::ajax()) {
+            return view('cat.content',['table' => 'buques']);
+        } else {
+            return view('cat.index',['table' => 'buques']);
+           // return view('home');
+        }
     }
 
     public function anyData(){
@@ -36,8 +41,7 @@ class BuqueController extends Controller{
         return Datatables::of($buques)
 
         ->addColumn('action', function ($buq) {
-            return '
-                <a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+            return '<a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
                 <a href="#" data-id="'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);

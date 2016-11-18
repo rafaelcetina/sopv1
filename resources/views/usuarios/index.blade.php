@@ -9,4 +9,12 @@
 <!-- End Page -->
   @include('usuarios.content')
 @endsection
+@push('scripts')
+<script src="{{ asset('assets/js/sop/add.js') }}"></script>
+<script src="{{ asset('assets/js/sop/usuarios.js') }}"></script>
+<script>
+  initDT_users('usuarios');
+</script>
+
+@endpush
     
