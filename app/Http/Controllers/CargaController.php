@@ -35,7 +35,17 @@ class CargaController extends Controller
         return view('home');
     }
 
-    public function getNuevo(){
+    public function getCargas($id=''){
+        
+        return view('arribos/cargas', ['id'=> $id]);
+    }
+
+    public function getCargasControl(){
+        
+        return view('arribos/cargasControl');
+    }
+
+    public function getNuevo($id){
 
         $tcargas = sop_Tcarga::lists('TCAR_NOMBRE','TCAR_ID');
         $tcargas->prepend(' -- Seleccione una Opción -- ', '');
@@ -43,6 +53,7 @@ class CargaController extends Controller
         $data = [
             'opcion' => 'null',
             'tcargas' => $tcargas,
+            'id' => $id,
             ];
             
         return view('arribos/form_cargas', $data);
@@ -50,10 +61,10 @@ class CargaController extends Controller
     }
 
 
-    public function postNuevo(Request $request){
+    public function postNuevo(){
         
         //dd(Input::all());
-        $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
+        // $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
         
         $messages = [
             'CARR_TCARGA_ID.required'  => 'El tipo de carga es requerido',
@@ -78,8 +89,7 @@ class CargaController extends Controller
         $Carr->CARR_TCARGA_ID       = Input::get('CARR_TCARGA_ID');
         $Carr->CARR_TPRODUCTO_ID    = Input::get('CARR_TPRODUCTO_ID');
         $Carr->CARR_UNIDAD          = Input::get('CARR_UNIDAD');
-        $Carr->CARR_SARR_ID         = $solicitud_id_tmp;
-        
+        $Carr->CARR_SARR_ID         = Input::get('CARR_SARR_ID');
         
         $Carr->save();
         
@@ -87,13 +97,11 @@ class CargaController extends Controller
     }
 
 
-    public function anyData(Request $request){
-
-        $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
+    public function anyData($id){
 
         $cargas = sop_Cargas_arribo::leftJoin('SOP_TCARGAS', 'SOP_TCARGAS.TCAR_ID', '=', 'SOP_CARGAS_ARRIBOS.CARR_TCARGA_ID')
             ->leftJoin('SOP_TPRODUCTOS', 'SOP_TPRODUCTOS.TPRO_ID','=','SOP_CARGAS_ARRIBOS.CARR_TPRODUCTO_ID')
-            ->where('CARR_SARR_ID', '=', $solicitud_id_tmp)
+            ->where('CARR_SARR_ID', '=', $id)
             ->select('SOP_CARGAS_ARRIBOS.*', 'SOP_TCARGAS.TCAR_NOMBRE', 'SOP_TPRODUCTOS.TPRO_NOMBRE', 'SOP_TPRODUCTOS.TPRO_UNIDAD');
             
         return Datatables::of($cargas)

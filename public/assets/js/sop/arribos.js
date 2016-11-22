@@ -2,7 +2,6 @@ $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
-
 $('#SARR_PUERTO_ID').change(function(e){
     $.get("muelles/"+e.target.value+"", function(response, state){
         //console.log(response);
@@ -156,7 +155,7 @@ $("#form_carga").submit(function (e) {
                     $(".help-block").empty();
                     $('.btn-submit').show();
                     $('.loading').hide();
-                    $(".btnCerrar").trigger( "click" );
+                    $(".btn-back").trigger( "click" );
                     
                 }
             },
@@ -172,15 +171,15 @@ $("#form_carga").submit(function (e) {
 
 var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', TCAR_NOMBRE:'Tipo de carga', TPRO_NOMBRE:'Descripción', CARR_UNIDAD:'Unidades', TPRO_UNIDAD:'Medida'};
 
-var catalogo = {cargas:cargas};
+var catalogo_carga = {cargas:cargas};
 var tabla;
 
-function initDT(table){
-  tabla = table;
+function initDT_cargas(tabla, id){
+  id=id;
   html ='<tr>';
   campos=[];
   i=0;
-  $.each(catalogo[tabla], function( index, value ) {
+  $.each(catalogo_carga[tabla], function( index, value ) {
     html += '<th>'+value+'</th>';
     campos.splice(i, 0, {data: index});
     i++;
@@ -189,14 +188,14 @@ function initDT(table){
 
   campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false} );
 
-  $('thead').html(html);
-  $('tfoot').html(html);
+  $('#'+tabla+'-table thead').html(html);
+  $('#'+tabla+'-table tfoot').html(html);
 
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
     language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/'+tabla+'/data',
+    ajax: 'http://localhost:8000/'+tabla+'/data/'+id,
     columns: campos,
     dom: 'Bfrtip',
     buttons: [
@@ -207,7 +206,7 @@ function initDT(table){
     ]
   });
   
-$("tbody").on('click', '.delete', function(e) {
+$("#"+tabla+"-table tbody").on('click', '.delete', function(e) {
 alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?",
   function(){
 
@@ -215,7 +214,9 @@ alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?",
     //Refresh
     refreshDT(tabla);
   });
-});   
+}); 
+
+
 }
 
 function refreshDT(tabla) {

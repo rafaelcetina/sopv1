@@ -59,7 +59,9 @@ class ControlArriboController extends Controller
         return Datatables::of($solicitudes)
 
         ->addColumn('action', function ($sol) {
-                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                return '
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="../cargas/cargasControl/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-boat"></i></a>
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
                 <a href="#" data-id="'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
