@@ -95,26 +95,19 @@
   <script src="{{ asset( 'assets/js/Plugin/jquery-strength.js')}}"></script>
   <script src="{{ asset( 'assets/js/Plugin/multi-select.js')}}"></script>
   <script src="{{ asset( 'assets/js/Plugin/jquery-placeholder.js')}}"></script>
-  
-  <script src="{{ asset( 'assets/js/nprogress.js')}}"></script>
 
   <script src="{{ asset('assets/js/Plugin/jquery-placeholder.js')}}"></script>
   <script src="{{ asset('assets/js/Plugin/material.js')}}"></script>
-  <!-- <script src="{{ asset('assets/examples/js/forms/advanced.js')}}"></script> -->
+  
+  <script src="{{ asset( 'assets/js/nprogress.js')}}"></script>
   <script src="{{ asset('assets/js/register.js')}}"></script>
   <script src="{{ asset('assets/js/sop/nav.js')}}"></script>
+  
+  {{-- <script src="{{ asset('assets/js/sop/arribos.js')}}"></script> --}}
   {{-- <script src="{{ asset('assets/js/sop/usuarios.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/js/sop/cat.js') }}"></script> --}}
   @stack('scripts')
-  <script>
-  (function(document, window, $) {
-    'use strict';
-    var Site = window.Site;
-    $(document).ready(function() {
-      Site.run();
-    });
-  })(document, window, jQuery);
-  </script>
+ 
   <script type="text/javascript">
       // $('#datetimepicker1').datetimepicker(); 
 
@@ -134,6 +127,14 @@
     }
     });
   </script>
-
+   <script>
+  (function(document, window, $) {
+    'use strict';
+    var Site = window.Site;
+    $(document).ready(function() {
+      Site.run();
+    });
+  })(document, window, jQuery);
+  </script>
 </body>
 </html>

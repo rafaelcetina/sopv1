@@ -18,3 +18,34 @@
     </div>
   </div>
 </div> 
+
+<script type="text/javascript">
+  $('input, select').each(function() {
+    var term = $(this).attr('data-plugin');
+      //alert(term);
+      //console.log(term);
+      switch(term){
+        case 'datepicker':
+          $(this).datepicker();
+        break;
+
+        case 'timepicker':
+          $(this).timepicker();
+        break;
+
+        case 'select2':
+          $(this).select2({ 'locale': 'es' });
+        break;
+        
+        case 'TouchSpin':
+          $(this).TouchSpin();
+        break;
+
+        case 'inputGroupFile':
+          $(this).inputGroupFile();
+        break;
+
+      }
+  });
+</script>   
+<script src="{{asset('assets/js/sop/arribos.js')}}"></script>

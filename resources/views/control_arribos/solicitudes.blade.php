@@ -11,12 +11,12 @@
 {{-- <div class="page"> --}}
     
 {{-- </div> --}}
+@include('control_arribos.content')
+
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
 <script src="{{ asset('assets/js/sop/control_solicitudes.js') }}"></script>
-<script src="{{ asset('assets/js/Plugin/bootstrap-datepicker.js')}}"></script>
-<script src="{{ asset('assets/js/Plugin/jt-timepicker.js')}}"></script>
 <script>
   initDT('<?=$table;?>');
 </script>

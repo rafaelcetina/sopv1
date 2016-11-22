@@ -18,4 +18,9 @@
       </table>
     </div>
   </div>
-</div>  
+</div>
+<script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
+<script src="{{ asset('assets/js/sop/solicitudes.js') }}"></script>
+<script>
+  initDT('<?=$table;?>');
+</script>  

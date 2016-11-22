@@ -41,7 +41,12 @@ class ControlArriboController extends Controller
 
     public function getSolicitudes(){
         $data = ['table'=>'solicitudes'];
-        return view('control_arribos/solicitudes',$data);
+        
+        if(\Request::ajax()) {
+            return view('control_arribos/content',$data);
+        } else {
+            return view('control_arribos/solicitudes',$data);
+        }
     }
 
     public function anyData(){
@@ -54,8 +59,8 @@ class ControlArriboController extends Controller
         return Datatables::of($solicitudes)
 
         ->addColumn('action', function ($sol) {
-                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$solicitudes->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
-                <a href="#" data-id="'.$solicitudes->SARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

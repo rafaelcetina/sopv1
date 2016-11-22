@@ -1,3 +1,8 @@
+$.ajaxSetup({
+  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+});
+
+
 $('#SARR_PUERTO_ID').change(function(e){
     $.get("muelles/"+e.target.value+"", function(response, state){
         //console.log(response);
@@ -164,9 +169,6 @@ $("#form_carga").submit(function (e) {
     });
 
 
-$.ajaxSetup({
-  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-});
 
 var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', TCAR_NOMBRE:'Tipo de carga', TPRO_NOMBRE:'Descripción', CARR_UNIDAD:'Unidades', TPRO_UNIDAD:'Medida'};
 

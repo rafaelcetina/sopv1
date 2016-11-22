@@ -1,6 +1,4 @@
-@push('estilos')
-<link rel="stylesheet" href="{{asset('assets/vendor/select2/select2.css')}}">
-@endpush
+
 <fieldset>
   <legend>Datos de la embarcación</legend>
 <div class="row">
@@ -20,7 +18,7 @@
     <input type="text" class="form-control" required="" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
     placeholder="" autocomplete="off" />
   </div>
-  <div class="form-group form-material col-xs-12 col-md-2">
+  <div class="form-group form-material col-xs-12 col-md-1">
     <button type="button" class="btn btn-primary">Viajes Buque</button>
   </div>
 </div>
@@ -196,7 +194,7 @@
   </table>
 
 </fieldset>-->
-<fieldset>
+<fieldset class="raised">
   <legend>Documentos</legend>
 <div class="row">
   <div class="form-group form-material col-xs-12 col-md-4">

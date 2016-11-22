@@ -47,6 +47,8 @@
   <!-- Fonts -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/material-design/material-design.min.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/fonts/brand-icons/brand-icons.min.css')}}">
+  
+  <link rel="stylesheet" href="{{asset('assets/vendor/select2/select2.css')}}">
   <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
   <!--[if lt IE 9]>
     <script src="../../../global/vendor/html5shiv/html5shiv.min.js"></script>
