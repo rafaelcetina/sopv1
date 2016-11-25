@@ -2,11 +2,11 @@ $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
-var solicitudes = {BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
+var solicitudes = {SARR_ID:'Folio', BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
 var catalogo = {solicitudes:solicitudes};
 var tabla;
 
-function initDT(table){
+function initDT(table, url){
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -23,11 +23,16 @@ function initDT(table){
   $('thead').html(html);
   $('tfoot').html(html);
 
+  // $('#'+tabla+'-table tfoot th').each( function () {
+  //       var title = $(this).text();
+  //       $(this).html( '<input type="text" class="" placeholder="'+title+'" />' );
+  // } );
+
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/control_arribos/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/control_arribos/data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [
@@ -37,6 +42,7 @@ function initDT(table){
         'pdfHtml5'
     ]
   });
+
   
 $("tbody").on('click', '.delete', function(e) {
 alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?.",
@@ -46,7 +52,23 @@ alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?.",
     //Refresh
     refreshDT(tabla);
   });
-});   
+});  
+
+$('#'+tabla+'-table tbody').on( 'click', 'tr', function () {
+    $(this).toggleClass('selected');
+} );
+
+$('#button').click( function () {
+
+  ids = $.map(dt.rows('.selected').data(), function (item) {
+    return item.SARR_ID;
+  });
+
+  console.log(ids);
+
+  console.log(dt.rows('.selected').data().length + ' fila(s) seleccionadas');
+});
+
 }
 
 function refreshDT(tabla) {
@@ -59,3 +81,5 @@ function eliminar(tabla, id) {
     alertify.success('Registro eliminado correctamente');
   });
 }
+
+ 

@@ -2,23 +2,23 @@
 <fieldset>
   <legend>Datos de la embarcación</legend>
 <div class="row">
-  <div class="form-group form-material col-xs-12 col-md-5">
+  <div class="form-group form-material col-xs-12 col-md-4 col-lg-3">
     {!! Form::label("SARR_BUQUE_ID","Embarcación",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_BUQUE_ID', ['Seleciona una opcion'], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
   </div>
 
-  <div class="form-group form-material col-xs-12 col-md-3">
+  <div class="form-group form-material col-xs-12 col-md-3 col-lg-3">
     {!! Form::label("SARR_TIPO_BUQUE","Tipo de Embarcación",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
   </div>
   
     
-  <div class="form-group form-material col-xs-12 col-md-2">
+  <div class="form-group form-material col-xs-12 col-md-2 col-lg-2">
     <label class="form-control-label" for="SARR_BUQUE_VIAJE">Viaje:</label>
     <input type="text" class="form-control" required="" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
     placeholder="" autocomplete="off" />
   </div>
-  <div class="form-group form-material col-xs-12 col-md-1">
+  <div class="form-group form-material col-xs-6 col-md-2 col-lg-1">
     <button type="button" class="btn btn-primary">Viajes Buque</button>
   </div>
 </div>
@@ -142,11 +142,11 @@
 </div>
 
 <div class="row">
-  <div class="form-group form-material col-xs-12 col-md-6">
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
     {!! Form::label("SARR_PUERTO_ID","Arribar al puerto",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_PUERTO_ID', $puertos, $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
   </div>
-  <div class="form-group form-material col-xs-12 col-md-6">
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
     {!! Form::label("SARR_MUELLE_ID","Muelle Solicitado",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_MUELLE_ID', [' -- Selecciona un Puerto -- '], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
   </div>

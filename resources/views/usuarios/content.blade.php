@@ -27,5 +27,5 @@
 <script src="{{ asset('assets/js/sop/usuarios.js') }}"></script>
 <script>
   //alert('usuarios');
-  initDT_users('usuarios');
+  initDT_users('usuarios', '<?=url('/');?>');
 </script>

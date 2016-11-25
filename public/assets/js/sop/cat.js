@@ -2,14 +2,14 @@ $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
-var buques = {BUQU_NOMBRE:'Nombre Buque', BUQU_BANDERA:'Bandera', TIBU_NOMBRE:'Tipo de Buque', 
-BUQU_MATRICULA: 'Matricula'};
+var buques = {BUQU_NOMBRE:'Nombre Buque', BUQU_BANDERA:'bandera', TIBU_NOMBRE:'Tipo de Buque', 
+BUQU_MATRICULA: 'Matricula', BUQU_NAVIERA: 'Naviera', BUQU_LINEA_NAVIERA: 'Linea naviera'};
 
 var puertos = {PUER_NOMBRE:'Nombre Puerto', PUER_PUERTO_SAP:'Puerto SAP', PUER_CAPITAN:'Capitan de Puerto', 
 PUER_DOCUMENTO_SAP: 'Documento SAP'};
 
 var muelles = {MUEL_NOMBRE:'Nombre Muelle', PUER_NOMBRE :'Puerto' , MUEL_NOMBRELARGO: 'Nombre largo', 
-MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIP: 'Descripción', MUEL_TERMINAL: 'Terminal'};
+MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIPCION: 'Descripción', MUEL_TERMINAL: 'Terminal'};
 
 var tcargas = {TCAR_NOMBRE:'Nombre', TCAR_SECTOR: 'Sector'}
 
@@ -18,7 +18,7 @@ var tproductos = {TPRO_NOMBRE:'Nombre', TPRO_UNIDAD: 'Unidad', TCAR_NOMBRE:'Tipo
 var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas, tproductos:tproductos };
 var tabla;
 
-function initDT_cat(table){
+function initDT_cat(table, url){
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -29,17 +29,20 @@ function initDT_cat(table){
     i++;
   });
   html +="<th></th></tr>";
-
+  
+  
   campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false} );
+
 
   $('thead').html(html);
   $('tfoot').html(html);
 
+  
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/catalogos/'+tabla+'/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/catalogos/'+tabla+'/data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [

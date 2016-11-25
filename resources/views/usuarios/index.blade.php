@@ -13,7 +13,7 @@
 <script src="{{ asset('assets/js/sop/add.js') }}"></script>
 <script src="{{ asset('assets/js/sop/usuarios.js') }}"></script>
 <script>
-  initDT_users('usuarios');
+  initDT_users('usuarios', '<?=url('/');?>');
 </script>
 
 @endpush

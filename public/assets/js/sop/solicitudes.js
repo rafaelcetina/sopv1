@@ -6,7 +6,7 @@ var solicitudes = {SARR_ID:'Folio', BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE
 var catalogo = {solicitudes:solicitudes};
 var tabla;
 
-function initDT(table){
+function initDT(table, url){
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -26,8 +26,8 @@ function initDT(table){
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/arribos/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/arribos/'+'data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [

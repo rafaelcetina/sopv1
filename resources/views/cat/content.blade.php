@@ -27,5 +27,5 @@
 
 <script src="{{ asset('assets/js/sop/cat.js') }}"></script>
 <script>
-  initDT_cat('<?=$table;?>');
+  initDT_cat('<?=$table;?>', '<?=url('/');?>');
 </script>

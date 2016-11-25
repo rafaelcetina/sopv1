@@ -1,4 +1,4 @@
-<div class="site-sidebar-tab-content tab-content">
+ <div class="site-sidebar-tab-content tab-content">
   <div class="tab-pane fade active in" id="sidebar-userlist">
     <div>
       <div>
@@ -31,5 +31,5 @@
   </div>
 <script src="{{ asset('assets/js/sop/arribos.js')}}" ></script>
 <script>
-  initDT_cargas('cargas', <?=$id;?>);
+  initDT_cargas('cargas', '<?=url('/');?>', <?=$id;?>);
 </script>  

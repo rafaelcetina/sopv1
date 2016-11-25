@@ -18,7 +18,7 @@
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
 <script src="{{ asset('assets/js/sop/control_solicitudes.js') }}"></script>
 <script>
-  initDT('<?=$table;?>');
+  initDT('<?=$table;?>', '<?=url('/');?>');
 </script>
 @endpush
     

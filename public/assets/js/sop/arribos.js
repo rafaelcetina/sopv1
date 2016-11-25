@@ -174,7 +174,7 @@ var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', TCAR_NOMBR
 var catalogo_carga = {cargas:cargas};
 var tabla;
 
-function initDT_cargas(tabla, id){
+function initDT_cargas(tabla, url, id){
   id=id;
   html ='<tr>';
   campos=[];
@@ -194,8 +194,8 @@ function initDT_cargas(tabla, id){
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/'+tabla+'/data/'+id,
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/cargas/data/'+id,
     columns: campos,
     dom: 'Bfrtip',
     buttons: [

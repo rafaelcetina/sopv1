@@ -10,17 +10,22 @@
 <div class="page-content">
   <div class="panel">
     <div class="panel-body">
+      <button class="btn btn-md btn-success raised" id="button">Programar Arribo</button>
+      <button class="btn btn-md btn-danger raised" id="button">Cancelar Arribo</button>
+      <button class="btn btn-md btn-primary raised" id="button">Enviar Notificación</button>
+      
       <table class="table raised dataTable w-full" id="<?=$table;?>-table">
         <thead> 
         </thead>
         <tfoot>
         </tfoot>
       </table>
+      
     </div>
   </div>
 </div>
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
 <script src="{{ asset('assets/js/sop/control_solicitudes.js') }}"></script>
 <script>
-  initDT('<?=$table;?>');
+  initDT('<?=$table;?>', '<?=url('/');?>');
 </script>

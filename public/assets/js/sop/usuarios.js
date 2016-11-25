@@ -7,7 +7,7 @@ var usuarios = {tipo:'Tipo', usuario:'Usuario', email:'E-mail', nombre: 'Nombre'
 var catalogo = {usuarios: usuarios};
 var tabla;
 
-function initDT_users(table){
+function initDT_users(table, url){
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -27,8 +27,8 @@ function initDT_users(table){
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/'+tabla+'/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/'+tabla+'/data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [

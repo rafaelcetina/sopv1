@@ -10,9 +10,7 @@
 <div class="page-content">
   <div class="panel">
     <div class="panel-body">
-      <!-- CONTENT GOES HERE -->
     {!! Form::open(["id"=>"form","autocomplete"=>"off"]) !!}
-    <!--<form method="post" role="form" autocomplete="off">-->
       @include("arribos._form")
     {!! Form::close() !!}
     </div>
