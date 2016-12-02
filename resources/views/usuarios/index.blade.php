@@ -11,10 +11,12 @@
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/sop/add.js') }}"></script>
-<script src="{{ asset('assets/js/sop/usuarios.js') }}"></script>
 <script>
-  initDT_users('usuarios', '<?=url('/');?>');
-</script>
+  var sop_dt = new sop_datatable('<?=url('/');?>', 'usuarios');
 
+  sop_dt.initDt('usuarios');
+
+  
+</script>
 @endpush
     

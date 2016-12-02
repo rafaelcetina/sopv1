@@ -26,7 +26,7 @@ class MuelleController extends Controller{
      */
     public function getIndex(){
         if(\Request::ajax()) {
-            return view('cat.content',['table' => 'muelles']);
+            return view('cat.content',['table' => 'muelles', 'ajax' => 1]);
         } else {
             return view('cat.index',['table' => 'muelles']);
            // return view('home');

@@ -18,6 +18,8 @@ Route::auth();
 
 Route::controller('home', 'HomeController');
 
+Route::controller('pdf', 'PdfController');
+
 
 
 // ADMINISTRADOR

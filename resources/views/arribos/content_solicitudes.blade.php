@@ -9,8 +9,9 @@
 </div>
 <div class="page-content">
   <div class="panel">
+    
     <div class="panel-body">
-      <table class="table dataTable raised w-full" id="<?=$table;?>-table">
+      <table class="table datatable-responsive raised w-full" id="<?=$table;?>-table">
         <thead>
         </thead>
         <tfoot>
@@ -19,8 +20,13 @@
     </div>
   </div>
 </div>
-<script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
-<script src="{{ asset('assets/js/sop/solicitudes.js') }}"></script>
+<?php
+  if(isset($ajax)){
+?>
 <script>
-  initDT('<?=$table;?>', '<?=url('/');?>');
-</script>  
+  var sop_dt_carga = new sop_datatable('<?=url('/arribos');?>', '<?=$table;?>');
+  sop_dt_carga.initDt('<?=$table;?>');
+</script>
+<?php
+}
+?>

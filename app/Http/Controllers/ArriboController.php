@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -16,6 +17,7 @@ use App\sop_Tproducto;
 use App\sop_Solicitudes_arribo;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Storage;
 
 class ArriboController extends Controller
 {
@@ -79,8 +81,6 @@ class ArriboController extends Controller
 
         $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
         
-        //echo $solicitud_id_tmp;
-
         $puertos = sop_Puerto::lists('PUER_NOMBRE','PUER_ID');
         $puertos->prepend(' -- Seleccione una Opción -- ', '');
 
@@ -93,12 +93,9 @@ class ArriboController extends Controller
         $data = [
             'opcion' => 'null',
             'types' => $types,
-            //'buques' => $buques,
             'trafico' => sop_Tipo_trafico::lists('TTRA_NOMBRE', 'TTRA_CLAVE'),
             'puertos' => $puertos,
             'tcargas' => $tcargas,
-            //'puertos' => sop_Puerto::lists('PUER_NOMBRE','PUER_ID'),
-            //'muelles' => sop_Muelle::lists('MUEL_NOMBRE', 'MUEL_ID'),
                 ];
 
         if(\Request::ajax()) {
@@ -112,6 +109,7 @@ class ArriboController extends Controller
     public function getSolicitudes(){
         $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes'];
         if(\Request::ajax()) {
+            $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes', 'ajax'=>1];
            return view('arribos/content_solicitudes', $data);
         } else {
             return view('arribos/solicitudes',$data);
@@ -137,9 +135,8 @@ class ArriboController extends Controller
     }
 
     public function postNuevo(){
-        
         $validator = Validator::make(Input::all(), [
-            "SARR_BUQUE_VIAJE"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_BUQUE_VIAJE"  => "unique:SOP_SOLICITUDES_ARRIBOS",
             "SARR_BUQUE_ID"  => "required",
 
         ]);
@@ -150,9 +147,6 @@ class ArriboController extends Controller
             );
         }
         
-        //dd(Input::all());
-        
-
         $Sarr = new sop_Solicitudes_arribo();
         $Sarr->SARR_BUQUE_ID        = Input::get('SARR_BUQUE_ID');
         $Sarr->SARR_USER_ID         = Auth::user()->id;
@@ -172,10 +166,88 @@ class ArriboController extends Controller
         $Sarr->SARR_OBSERVACIONES   = Input::get('SARR_OBSERVACIONES');
         $Sarr->SARR_HISTORIAL_PUERTOS = Input::get('SARR_HISTORIAL_PUERTOS');
         $Sarr->SARR_CREW_LIST       = Input::get('SARR_CREW_LIST');
-    
+
+        $folio = 'API-QR-'.Auth::user()->id.'-'.Input::get('SARR_BUQUE_VIAJE');
+        $Sarr->SARR_FOLIO = $folio;
         
         $Sarr->save();
+
+        $data = $this->getData($folio);
+        $date = date('d/m/Y');
+        $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
         
-        return ['aviso' => 'success'];
+        $data['date'] = $date;
+        $data['invoice'] = $invoice;
+        $data['procedencia'] = 'No especificado';
+        $data['tel'] = 'No especificado';
+        $data['folio'] = $folio;
+
+        $view = view('pdf.sarr', $data)->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        $data =  [
+            'email'      => 'rafael.cetina@hotmail.com' ,
+            'subject'   => 'Solicitud de arribo',
+            'body'   => 'Confirmación de solicitud de arribo - APIQROO <br> Folio: '.$folio,
+            'nombre' => Auth::user()->nombre,
+            'pdf' => $pdf
+        ];
+
+
+        Mail::send('pdf.sarr_email', $data, function ($m) use ($data) {
+            $m->from('rrdc123@gmail.com', 'SOP');
+            $m->attachData($data['pdf']->output(), 'Solicitud de arribo.pdf');
+            $m->to($data['email'], $data["nombre"])->subject($data['subject']);
+        });
+
+        return ['Folio' => $folio];
+    }
+
+
+    public function getPDF($folio){
+        $data = $this->getData($folio);
+        $date = date('d/m/Y');
+        $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
+        
+        $data['date'] = $date;
+        $data['invoice'] = $invoice;
+        $data['procedencia'] = 'No especificado';
+        $data['tel'] = 'No especificado';
+        $data['folio'] = $folio;
+
+        // $view =  \View::make('pdf.sarr', compact('data', 'date', 'invoice'))->render();
+        //var_dump($data);
+        $view = view('pdf.sarr', $data)->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        
+        $pdf->save('../storage/pdf/sarr-'.$folio.'.pdf');
+        //return $pdf->stream('invoice');
+        //return $pdf->download('invoice');
+    }
+
+     public function getData($folio) {
+        $data = sop_Solicitudes_arribo::leftJoin('SOP_BUQUES', 'BUQU_ID', '=', 'SARR_BUQUE_ID')
+            
+            ->leftJoin('SOP_PUERTOS', 'SARR_PUERTO_ID', '=', 'PUER_ID')
+            
+            ->leftJoin('SOP_MUELLES', 'SARR_MUELLE_ID', '=', 'MUEL_ID')
+            
+            ->leftJoin('SOP_TIPO_BUQUES', 'TIBU_ID', '=', 'BUQU_TIPO_BUQUE')
+            
+            ->leftJoin('SOP_PAISES', 'BUQU_BANDERA', '=', 'PAIS_ID')
+
+            ->leftJoin('users', 'users.id', '=', 'SARR_USER_ID')
+            
+            ->where('SARR_FOLIO', '=', $folio)
+
+            ->select('SOP_SOLICITUDES_ARRIBOS.*', 'SOP_BUQUES.*',
+                'SOP_PUERTOS.*', 'SOP_PAISES.PAIS_NOMBRE', 'SOP_TIPO_BUQUES.TIBU_NOMBRE', 'users.*',
+                'SOP_MUELLES.MUEL_NOMBRE', 'SOP_PUERTOS.PUER_NOMBRE'
+                )->first();
+
+        return $data;
     }
 }

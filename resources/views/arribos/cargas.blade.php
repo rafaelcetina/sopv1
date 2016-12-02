@@ -29,7 +29,8 @@
       </div>  
     </div>
   </div>
-<script src="{{ asset('assets/js/sop/arribos.js')}}" ></script>
+</div>
 <script>
-  initDT_cargas('cargas', '<?=url('/');?>', <?=$id;?>);
-</script>  
+  var sop_dt_carga = new sop_datatable('<?=url('/');?>', 'cargas', '<?=$id;?>');
+  sop_dt_carga.initDt('cargas');
+</script>

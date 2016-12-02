@@ -17,7 +17,7 @@ class UsuarioController extends Controller{
 
     public function getIndex(){
         if(\Request::ajax()) {
-           return view('usuarios.content');
+           return view('usuarios.content', ['ajax'=>1]);
         } else {
             return view('usuarios.index');
         }

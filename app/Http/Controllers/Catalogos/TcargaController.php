@@ -26,7 +26,7 @@ class TcargaController extends Controller{
      */
     public function getIndex(){
         if(\Request::ajax()) {
-            return view('cat.content',['table' => 'tcargas']);
+            return view('cat.content',['table' => 'tcargas', 'ajax' => 1]);
         } else {
             return view('cat.index',['table' => 'tcargas']);
            // return view('home');

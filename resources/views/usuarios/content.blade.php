@@ -23,9 +23,13 @@
       </div>
     </div>
   </div>  
-{{-- </div> --}}
-<script src="{{ asset('assets/js/sop/usuarios.js') }}"></script>
-<script>
-  //alert('usuarios');
-  initDT_users('usuarios', '<?=url('/');?>');
-</script>
+ <?php
+    if(isset($ajax)){
+  ?>
+  <script>
+  var sop_dt = new sop_datatable('<?=url('/');?>', 'usuarios');
+  sop_dt.initDt('usuarios');
+  </script>
+  <?php
+  }
+  ?>

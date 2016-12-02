@@ -10,6 +10,9 @@
   @include('arribos.content_nuevo')
 @endsection
 @push('scripts')
+{{-- <script src="{{ asset('assets/vendor/ladda/spin.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/ladda/lada.min.js') }}"></script> --}}
+
 <script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
 @endpush
     

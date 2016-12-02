@@ -15,7 +15,7 @@
   <div class="page-content">
     <div class="panel">
       <div class="panel-body">
-        <table class="table dataTable raised w-full" id="<?=$table;?>-table">
+        <table class="table dataTable datatable-responsive raised w-full" id="<?=$table;?>-table">
           <thead>
           </thead>
           <tfoot>
@@ -23,9 +23,16 @@
         </table>
       </div>
     </div>
-  </div>  
+  </div>
+  <?php
+    if(isset($ajax)){
+  ?>
+  <script>
+    var sop_dt_<?=$table;?> = new sop_datatable('<?=url('/catalogos');?>', '<?=$table;?>');
+    sop_dt_<?=$table;?>.initDt('<?=$table;?>');
+    console.log(sop_dt_<?=$table;?>);
+  </script>
+  <?php
+  }
+  ?>
 
-<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
-<script>
-  initDT_cat('<?=$table;?>', '<?=url('/');?>');
-</script>

@@ -10,10 +10,9 @@
   @include('arribos.content_solicitudes')
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
-<script src="{{ asset('assets/js/sop/solicitudes.js') }}"></script>
 <script>
-  initDT('<?=$table;?>', '<?=url('/');?>');
+  var sop_dt_carga = new sop_datatable('<?=url('/arribos');?>', '<?=$table;?>');
+  sop_dt_carga.initDt('<?=$table;?>');
 </script>
 @endpush
     

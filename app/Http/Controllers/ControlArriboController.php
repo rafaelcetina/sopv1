@@ -12,6 +12,7 @@ use App\sop_Tipo_trafico;
 use App\sop_Puerto;
 use App\sop_Muelle;
 use App\sop_Solicitudes_arribo;
+use App\sop_Tproducto;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 
@@ -37,15 +38,26 @@ class ControlArriboController extends Controller
         return view('home');
     }
   
+    public function getTproductos(Request $request, $id){
+        if ($request->ajax()) {
+            $tproductos = sop_Tproducto::tproductos($id);
+            return response()->json($tproductos);
+        }
+    }
 
+    public function getUnidad(Request $request, $id){
+        if ($request->ajax()) {
+            $tproducto = sop_Tproducto::tproducto_uni($id);
+            return response()->json($tproducto);
+        }
+    }
 
     public function getSolicitudes(){
-        $data = ['table'=>'solicitudes'];
         
         if(\Request::ajax()) {
-            return view('control_arribos/content',$data);
+            return view('control_arribos/content',['table' => 'solicitudes', 'ajax'=> 1]);
         } else {
-            return view('control_arribos/solicitudes',$data);
+            return view('control_arribos/solicitudes',['table'=>'solicitudes']);
         }
     }
 

@@ -34,6 +34,7 @@
   <script src="{{ asset( 'assets/vendor/bootstrap-touchspin/bootstrap-touchspin.min.js')}}"></script>
   <script src="{{ asset( 'assets/vendor/jquery-labelauty/jquery-labelauty.js')}}"></script>
   <script src="{{ asset( 'assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>
+  {{-- <script src="{{ asset( 'assets/vendor/bootstrap-datepicker/bootstrap-datepicker.es.min.js')}}"></script> --}}
   {{-- <script src="{{ asset( 'assets/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.js')}}"></script> --}}
   <script src="{{ asset( 'assets/vendor/jt-timepicker/jquery.timepicker.min.js')}}"></script>
   <script src="{{ asset( 'assets/vendor/datepair/datepair.min.js')}}"></script>
@@ -45,12 +46,20 @@
   <script src="{{ asset( 'assets/vendor/typeahead-js/typeahead.jquery.min.js')}}"></script>
   <script src="{{ asset( 'assets/vendor/jquery-placeholder/jquery.placeholder.js')}}"></script>
   <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.js')}}"></script>
-  <script src="{{ asset('assets/vendor/datatables-fixedheader/dataTables.fixedHeader.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datatables/datatables.min.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datatables/responsive.min.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datatables/datatables_responsive.js')}}"></script>
+
+  <script src="{{ asset('assets/vendor/ladda/spin.min.js') }}"></script>
+  <script src="{{ asset('assets/vendor/ladda/ladda.min.js') }}"></script>
+  {{-- <script src="{{ asset('assets/vendor/datatables-fixedheader/dataTables.fixedHeader.js')}}"></script> --}}
   <script src="{{ asset('assets/vendor/datatables-bootstrap/dataTables.bootstrap.js')}}"></script>
-  <script src="{{ asset('assets/vendor/datatables-responsive/dataTables.responsive.js')}}"></script>
-  <script src="{{ asset('assets/vendor/datatables-tabletools/dataTables.tableTools.js')}}"></script>
+  {{-- <script src="{{ asset('assets/vendor/datatables-responsive/dataTables.responsive.js')}}"></script> --}}
+  {{-- <script src="{{ asset('assets/vendor/datatables-tabletools/dataTables.tableTools.js')}}"></script> --}}
 
   <script src="{{ asset('assets/vendor/alertify/alertify.js')}}"></script>
+
+
   {{-- <script src="{{ asset('assets/vendor/notie/notie.js')}}"></script> --}}
   <!-- Scripts -->
   <script src="{{ asset( 'assets/js/State.js')}}"></script>
@@ -65,6 +74,7 @@
   <script src="{{ asset('assets/js/Plugin/menu.js')}}"></script>
   <script src="{{ asset( 'assets/js/config/colors.js')}}"></script>
   <script src="{{ asset('assets/js/config/tour.js')}}"></script>
+  
   <script>
   Config.set('assets', '{{ asset('assets')}}');
   </script>
@@ -98,14 +108,22 @@
 
   <script src="{{ asset('assets/js/Plugin/jquery-placeholder.js')}}"></script>
   <script src="{{ asset('assets/js/Plugin/material.js')}}"></script>
+  <script src="{{ asset( 'assets/js/Plugin/ladda.js')}}"></script>
   
   <script src="{{ asset( 'assets/js/nprogress.js')}}"></script>
   <script src="{{ asset('assets/js/register.js')}}"></script>
   <script src="{{ asset('assets/js/sop/nav.js')}}"></script>
+
+
+ 
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/locale/es.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
   {{-- <script src="{{ asset('assets/js/sop/arribos.js')}}"></script> --}}
   {{-- <script src="{{ asset('assets/js/sop/usuarios.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/js/sop/cat.js') }}"></script> --}}
+  <script src="{{ asset('assets/js/sop/core.js') }}"></script>
   @stack('scripts')
  
   <script type="text/javascript">
@@ -127,6 +145,8 @@
     }
     });
   </script>
+  
+
    <script>
   (function(document, window, $) {
     'use strict';

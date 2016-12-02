@@ -27,7 +27,7 @@ class TproductoController extends Controller{
      */
     public function getIndex(){
         if(\Request::ajax()) {
-            return view('cat.content',['table' => 'tproductos']);
+            return view('cat.content',['table' => 'tproductos', 'ajax' => 1]);
         } else {
             return view('cat.index',['table' => 'tproductos']);
            // return view('home');

@@ -1,12 +1,18 @@
 $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
-
+$(document).ready(function() {
+  
+});
+      
 var solicitudes = {SARR_ID:'Folio', BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
 var catalogo = {solicitudes:solicitudes};
 var tabla;
 
 function initDT(table, url){
+
+
+
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -18,7 +24,7 @@ function initDT(table, url){
   });
   html +="<th></th></tr>";
 
-  campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false} );
+  campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false,  sWidth : "200px !important"} );
 
   $('thead').html(html);
   $('tfoot').html(html);
@@ -42,7 +48,6 @@ function initDT(table, url){
         'pdfHtml5'
     ]
   });
-
   
 $("tbody").on('click', '.delete', function(e) {
 alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?.",
@@ -67,9 +72,20 @@ $('#button').click( function () {
   console.log(ids);
 
   console.log(dt.rows('.selected').data().length + ' fila(s) seleccionadas');
+
 });
 
+$('.filtro').on( 'change', function () {
+    var i =$(this).attr('id');  // getting column index
+    var s =$("#start").val();  // getting search input value
+    var e =$("#end").val();  // getting search input value
+    console.log(s)
+    dt.columns(5).search(s).draw();
+    dt.columns(7).search(e).draw();
+} );
+ 
 }
+
 
 function refreshDT(tabla) {
   $('#'+tabla+'-table').DataTable().draw();
@@ -81,5 +97,3 @@ function eliminar(tabla, id) {
     alertify.success('Registro eliminado correctamente');
   });
 }
-
- 

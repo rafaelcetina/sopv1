@@ -1738,9 +1738,9 @@
 		datesDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'dd/mm/yyyy',
 		keyboardNavigation: true,
-		language: 'en',
+		language: 'es',
 		minViewMode: 0,
 		maxViewMode: 4,
 		multidate: false,
@@ -1750,7 +1750,7 @@
 		startDate: -Infinity,
 		startView: 0,
 		todayBtn: false,
-		todayHighlight: false,
+		todayHighlight: true,
 		weekStart: 0,
 		disableTouchKeyboard: false,
 		enableOnReadonly: true,
@@ -1762,7 +1762,10 @@
 		templates: {
 			leftArrow: '&laquo;',
 			rightArrow: '&raquo;'
-		}
+		},
+		showAnim: 'slideDown',
+		showButtonPanel: true ,
+		closeText: "Clear"
 	};
 	var locale_opts = $.fn.datepicker.locale_opts = [
 		'format',
@@ -1771,6 +1774,18 @@
 	];
 	$.fn.datepicker.Constructor = Datepicker;
 	var dates = $.fn.datepicker.dates = {
+		es: {
+			days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+			daysShort: ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],
+			daysMin: ["Do","Lu","Ma","Mi","Ju","Vi","Sa"],
+			months: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+			monthsShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],
+			today: "Hoy",
+			monthsTitle:"Meses",
+			weekStart:1,
+			clear: "Borrar",
+			titleFormat: "MM yyyy"
+		},
 		en: {
 			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
 			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],

@@ -25,7 +25,7 @@ class PuertoController extends Controller{
      */
     public function getIndex(){
         if(\Request::ajax()) {
-            return view('cat.content',['table' => 'puertos']);
+            return view('cat.content',['table' => 'puertos', 'ajax' => 1]);
         } else {
             return view('cat.index',['table' => 'puertos']);
            // return view('home');

@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-maxlength/bootstrap-maxlength.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/vendor/jt-timepicker/jquery-timepicker.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.css">
   
   <link rel="stylesheet" href="{{ asset('assets/vendor/alertify/alertify.css')}}">
   {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/notie/notie.css')}}"> --}}
@@ -49,10 +50,13 @@
   <link rel="stylesheet" href="{{ asset('assets/fonts/brand-icons/brand-icons.min.css')}}">
   
   <link rel="stylesheet" href="{{asset('assets/vendor/select2/select2.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/ladda/ladda.css')}}">
+  @stack('estilos')
   <!--<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>-->
   <!--[if lt IE 9]>
     <script src="../../../global/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->
+  
   <!--[if lt IE 10]>
     <script src="../../../global/vendor/media-match/media.match.min.js"></script>
     <script src="../../../global/vendor/respond/respond.min.js"></script>
@@ -62,7 +66,6 @@
   <script>
   Breakpoints();
   </script>
-  @stack('estilos')
 </head>
 
 @include('layout.nav')

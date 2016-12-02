@@ -27,7 +27,7 @@ class BuqueController extends Controller{
      */
     public function getIndex(){
         if(\Request::ajax()) {
-            return view('cat.content',['table' => 'buques']);
+            return view('cat.content',['table' => 'buques', 'ajax' => 1]);
         } else {
             return view('cat.index',['table' => 'buques']);
            // return view('home');

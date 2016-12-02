@@ -15,10 +15,10 @@
 
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
-<script src="{{ asset('assets/js/sop/control_solicitudes.js') }}"></script>
+
 <script>
-  initDT('<?=$table;?>', '<?=url('/');?>');
+var sop_dt = new sop_datatable('<?=url('control_arribos');?>', '<?=$table;?>');
+sop_dt.initDt('<?=$table;?>');
 </script>
 @endpush
     

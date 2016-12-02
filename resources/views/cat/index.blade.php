@@ -10,8 +10,8 @@
   @include('cat.content')
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/sop/cat.js') }}"></script>
 <script>
-  initDT_cat('<?=$table;?>', '<?=url('/');?>');
+  var sop_dt_<?=$table;?> = new sop_datatable('<?=url('/catalogos');?>', '<?=$table;?>');
+  sop_dt_<?=$table;?>.initDt('<?=$table;?>');
 </script>
 @endpush

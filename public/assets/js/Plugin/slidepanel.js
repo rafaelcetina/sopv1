@@ -66,7 +66,7 @@
           mouseDragHandler: '.slidePanel-handler',
           loading: {
             template: function template(options) {
-              return '<div class="' + options.classes.loading + '">\n                    <div class="loader loader-default"></div>\n                  </div>';
+              return '<div class="' + options.classes.loading + '">\n                    <div class="loader loader-grill"></div>\n                  </div>';
             },
             showCallback: function showCallback(options) {
               this.$el.addClass(options.classes.loading + '-show');
