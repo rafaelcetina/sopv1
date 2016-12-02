@@ -10,12 +10,16 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-use App\sop_Muelle;
-use Illuminate\Support\Facades\Input;
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index_ajax');
 
 Route::auth();
+
+Route::controller('home', 'HomeController');
+
+Route::controller('pdf', 'PdfController');
+
 
 
 // ADMINISTRADOR
@@ -33,9 +37,9 @@ Route::group(['middleware'=>'App\Http\Middleware\IsAdmin'], function(){
 
 Route::group(['middleware' => 'App\Http\Middleware\IsNaviera'], function(){
     Route::controller('arribos', 'ArriboController');
-    Route::controller('cargas', 'CargaController');
 });
 
 Route::group(['middleware' => 'App\Http\Middleware\IsAgente'], function(){
+    Route::controller('cargas', 'CargaController');
     Route::controller('control_arribos', 'ControlArriboController');
 });

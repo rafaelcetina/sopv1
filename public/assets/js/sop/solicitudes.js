@@ -2,11 +2,11 @@ $.ajaxSetup({
   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
-var solicitudes = {BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
+var solicitudes = {SARR_ID:'Folio', BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'# Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
 var catalogo = {solicitudes:solicitudes};
 var tabla;
 
-function initDT(table){
+function initDT(table, url){
   tabla = table;
   html ='<tr>';
   campos=[];
@@ -26,8 +26,8 @@ function initDT(table){
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/arribos/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/arribos/'+'data',
     columns: campos,
     dom: 'Bfrtip',
     buttons: [

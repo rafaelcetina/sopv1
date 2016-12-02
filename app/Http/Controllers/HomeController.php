@@ -22,8 +22,23 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         return view('home');
+    }
+
+    public function index_ajax(){
+        if(\Request::ajax()) {
+            return view('home_ajax');
+        } else {
+            return view('home');
+        }
+    }
+
+    public function getPanel(){
+        if(\Request::ajax()) {
+           return view('vista2');
+        } else {
+            return view('home');
+        }
     }
 }

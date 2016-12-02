@@ -16,7 +16,11 @@ class UsuarioController extends Controller{
     }
 
     public function getIndex(){
-        return view('usuarios.index');
+        if(\Request::ajax()) {
+           return view('usuarios.content', ['ajax'=>1]);
+        } else {
+            return view('usuarios.index');
+        }
     }
 
     public function getActivar($id){
@@ -41,9 +45,9 @@ class UsuarioController extends Controller{
 
         ->addColumn('action', function ($user) {
                 return '
-                    <a data-toggle="site-sidebar" href="javascript:;" data-url="usuarios/activar/'.$user->id.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-check"></i></a>
-                    <a data-toggle="site-sidebar" href="javascript:;" data-url="user/update/'.$user->id.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$user->id.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="usuarios/activar/'.$user->id.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-check"></i></a>
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="usuarios/update/'.$user->id.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$user->id.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

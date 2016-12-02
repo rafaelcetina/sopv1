@@ -27,7 +27,7 @@ $("#form_add").submit(function (e) {
                         }
                     });
                     $('.loading').hide();
-                    $('.btn-submit').show();
+                    //$('.btn-submit').show();
                     alertify.error('Ocurrió un error, intente de nuevo');
                 } else {
                     
@@ -37,7 +37,7 @@ $("#form_add").submit(function (e) {
                     
                     $(".has-error").removeClass("has-danger");
                     $(".help-block").empty();
-                    $('.btn-submit').show();
+                    //$('.btn-submit').show();
                     $('.loading').hide();
                     $(".btnCerrar").trigger( "click" );
                     

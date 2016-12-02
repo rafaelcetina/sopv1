@@ -14,6 +14,7 @@
         </h4>
         
 {!! Form::open(["id"=>"form_carga","autocomplete"=>"off"]) !!}
+<fieldset>
   <legend>Datos de carga</legend>
         
   <div class="form-group form-material col-xs-12 col-md-12">
@@ -33,7 +34,7 @@
     {!! Form::select('CARR_TCARGA_ID', $tcargas, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
     <span id="CARR_TCARGA_ID-error" class="help-block"></span>
   </div>
-  <div class="form-group form-material col-xs-8 col-md-8" id="form-CARR_TPRODUCTO_ID-error">
+  <div class="form-group form-material col-xs-12 col-md-12" id="form-CARR_TPRODUCTO_ID-error">
     {!! Form::label("CARR_TPRODUCTO_ID","Descripción",["class"=>"form-control-label"]) !!}
     {!! Form::select('CARR_TPRODUCTO_ID', [' -- Selecciona tipo de carga -- '], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
     <span id="CARR_TPRODUCTO_ID-error" class="help-block"></span>
@@ -46,15 +47,23 @@
        <span id="CARR_UNIDAD-error" class="help-block"></span>
     </div>
   </div>
+
+  <div class="form-group form-material col-xs-4 col-md-4" id="form-CARR_SARR_ID-error">
+    <div class="input-group">
+      <label class="form-control-label" for="CARR_SARR_ID">Folio #:</label>
+      <input type="text" value="<?=$id;?>" readonly="" class="form-control" id="CARR_SARR_ID" name="CARR_SARR_ID" autocomplete="off" required="">
+       <span id="CARR_SARR_ID-error" class="help-block"></span>
+    </div>
+  </div>
       {!! Form::button("<i class='icon md-boat'></i> Agregar carga",["id"=>"btn_carga" ,"type" => "submit","class"=>"btn btn btn-primary btn-waves-effect"])!!}
       <hr>
   {!! Form::close() !!}
-
+</fieldset>
 
         <a class="btn btn-sm btn-primary waves-effect active btnCerrar" data-toggle="site-sidebar" href="javascript:void(0)" title="Cerrar">
           <i class="icon md-close" aria-hidden="true"></i>Cerrar
         </a>
-
+        <a data-toggle="site-sidebar" href="javascript:;" data-url="../cargas/cargas/<?=$id;?>" class="btn btn-sm btn-pure btn-icon btn-back"><i class="icon md-boat"></i> Ver cargas</a>
       </div>  
     </div>
   </div>

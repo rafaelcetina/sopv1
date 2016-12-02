@@ -9,4 +9,14 @@
 <!-- End Page -->
   @include('usuarios.content')
 @endsection
+@push('scripts')
+<script src="{{ asset('assets/js/sop/add.js') }}"></script>
+<script>
+  var sop_dt = new sop_datatable('<?=url('/');?>', 'usuarios');
+
+  sop_dt.initDt('usuarios');
+
+  
+</script>
+@endpush
     

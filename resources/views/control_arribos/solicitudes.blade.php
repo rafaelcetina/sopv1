@@ -8,37 +8,17 @@
 <!-- Page -->
 <!-- End Page -->
   <!-- Panel Table Individual column searching -->
-<div class="page">
-    <div class="page-header">
-      <h1 class="page-title">Solicitudes de Arribo/Atraque</h1>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="javascript:void(0)">Movimientos</a></li>
-        <li class="breadcrumb-item active">Solicitudes</li>
-      </ol>
-     <br>
-    </div>
-    <div class="page-content">
-      <div class="panel">
-        <div class="panel-body">
-          <table class="table dataTable w-full" id="<?=$table;?>-table">
-            <thead>
-            </thead>
-            <tfoot>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </div>  
-</div>
+{{-- <div class="page"> --}}
+    
+{{-- </div> --}}
+@include('control_arribos.content')
+
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/sop/arribos.js') }}"></script>
-<script src="{{ asset('assets/js/sop/control_solicitudes.js') }}"></script>
-<script src="{{ asset('assets/js/Plugin/bootstrap-datepicker.js')}}"></script>
-<script src="{{ asset('assets/js/Plugin/jt-timepicker.js')}}"></script>
+
 <script>
-  initDT('<?=$table;?>');
+var sop_dt = new sop_datatable('<?=url('control_arribos');?>', '<?=$table;?>');
+sop_dt.initDt('<?=$table;?>');
 </script>
 @endpush
     

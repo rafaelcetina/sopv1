@@ -5,7 +5,7 @@
           <ul class="site-menu" data-plugin="menu">
             <li class="site-menu-category">General</li>
             <li class="site-menu-item">
-              <a class="animsition-link" href="{{ URL::to('/') }}">
+              <a class="animsition-link" href="{{ URL::to('home/') }}">
                 <i class="site-menu-icon md-view-dashboard" aria-hidden="true"></i>
                 <span class="site-menu-title">DASHBOARD</span>
               </a>
@@ -48,6 +48,12 @@
               <a class="animsition-link" href="{{ URL::to('/usuarios') }}">
                 <i class="site-menu-icon md-accounts" aria-hidden="true"></i>
                 <span class="site-menu-title">USUARIOS</span>
+              </a>
+            </li>
+            <li class="site-menu-item">
+              <a class="animsition-link" href="{{ URL::to('/home/panel') }}">
+                <i class="site-menu-icon md-accounts" aria-hidden="true"></i>
+                <span class="site-menu-title">VISTA 2 - PANEL</span>
               </a>
             </li>
             @endif

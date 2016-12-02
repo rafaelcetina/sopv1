@@ -20,12 +20,12 @@ class Sop_solicitudes_arribo extends Model
 	});
 	*/
 
-	protected $casts = [
-        'SARR_ACTIVIDADES' => 'array',
-        'SARR_ETA' => 'array',
-        'SARR_ETB' => 'array',
-        'SARR_ETD' => 'array',
-        'SARR_HISTORIAL_PUERTOS' => 'array',
-    ];
+	 protected $casts = [
+         'SARR_ACTIVIDADES' => 'array',
+ //        'SARR_ETA' => 'array',
+ //        'SARR_ETB' => 'array',
+ //        'SARR_ETD' => 'array',
+ //        'SARR_HISTORIAL_PUERTOS' => 'array',
+     ];
 
 }

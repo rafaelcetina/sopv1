@@ -24,15 +24,20 @@ class PuertoController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function getIndex(){
-        return view('cat.index',['table' => 'puertos']);
+        if(\Request::ajax()) {
+            return view('cat.content',['table' => 'puertos', 'ajax' => 1]);
+        } else {
+            return view('cat.index',['table' => 'puertos']);
+           // return view('home');
+        }
     }
 
     public function anyData(){
 
         return Datatables::of(sop_Puerto::query())
             ->addColumn('action', function ($puerto) {
-                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="puertos/update/'.$puerto->PUER_ID.'" class="btn btn-xs btn-success"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$puerto->PUER_ID.'" class="btn btn-xs btn-danger delete"><i class="icon md-delete"></i></a>';
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="puertos/update/'.$puerto->PUER_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$puerto->PUER_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

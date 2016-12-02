@@ -138,7 +138,7 @@ div.dataTables_paginate .paginate_button > a:hover
     div.dataTables_info,
     div.dataTables_paginate
     {
-        text-align: center;
+        /*text-align: center;*/
     }
     div.DTTT
     {

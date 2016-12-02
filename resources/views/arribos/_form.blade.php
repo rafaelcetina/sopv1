@@ -1,26 +1,24 @@
-@push('estilos')
-<link rel="stylesheet" href="{{asset('assets/vendor/select2/select2.css')}}">
-@endpush
+
 <fieldset>
   <legend>Datos de la embarcación</legend>
 <div class="row">
-  <div class="form-group form-material col-xs-12 col-md-5">
+  <div class="form-group form-material col-xs-12 col-md-3 col-lg-3">
     {!! Form::label("SARR_BUQUE_ID","Embarcación",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_BUQUE_ID', ['Seleciona una opcion'], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
   </div>
 
-  <div class="form-group form-material col-xs-12 col-md-3">
+  <div class="form-group form-material col-xs-12 col-md-3 col-lg-3">
     {!! Form::label("SARR_TIPO_BUQUE","Tipo de Embarcación",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
   </div>
-  
+ {{-- </div> --}}
     
-  <div class="form-group form-material col-xs-12 col-md-2">
+  <div class="form-group form-material col-xs-12 col-md-2 col-lg-2">
     <label class="form-control-label" for="SARR_BUQUE_VIAJE">Viaje:</label>
     <input type="text" class="form-control" required="" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
     placeholder="" autocomplete="off" />
   </div>
-  <div class="form-group form-material col-xs-12 col-md-2">
+  <div class="form-group form-material col-xs-6 col-md-2 col-lg-1">
     <button type="button" class="btn btn-primary">Viajes Buque</button>
   </div>
 </div>
@@ -68,62 +66,32 @@
 </fieldset>
 <fieldset>
   <legend>Datos del arribo</legend>
-  <div class="form-group form-material col-xs-12 col-md-12">
+  <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de arribo (ETA):</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="icon md-calendar" aria-hidden="true"></i>
-      </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETA[]">
-    </div>
-    <!-- Example Basic -->
-    <div class="m-lg-0">
-      <div class="input-group">
+    <div class='input-group date datetimepicker' id='datetimepicker1'>
+        <input type='text' class="form-control" name="SARR_ETA" />
         <span class="input-group-addon">
-          <i class="icon md-time" aria-hidden="true"></i>
+            <span class="icon md-calendar"></span>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETA[]" />
-      </div>
     </div>
-    <!-- End Example Basic -->
   </div>  
-  <div class="form-group form-material col-xs-12 col-md-12">
+  <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de atraque (ETB):</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="icon md-calendar" aria-hidden="true"></i>
-      </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETB[]">
-    </div>
-    <!-- Example Basic -->
-    <div class="m-lg-0">
-      <div class="input-group">
+    <div class='input-group date datetimepicker' id='datetimepicker1'>
+        <input type='text' class="form-control" name="SARR_ETB" />
         <span class="input-group-addon">
-          <i class="icon md-time" aria-hidden="true"></i>
+            <span class="icon md-calendar"></span>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETB[]" />
-      </div>
     </div>
-    <!-- End Example Basic -->
   </div>  
-  <div class="form-group form-material col-xs-12 col-md-12">
+  <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de salida (ETD):</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="icon md-calendar" aria-hidden="true"></i>
-      </span>
-      <input type="text" class="form-control" data-plugin="datepicker" name="SARR_ETD[]">
-    </div>
-    <!-- Example Basic -->
-    <div class="m-lg-0">
-      <div class="input-group">
+    <div class='input-group date datetimepicker' id='datetimepicker1'>
+        <input type='text' class="form-control" name="SARR_ETD" />
         <span class="input-group-addon">
-          <i class="icon md-time" aria-hidden="true"></i>
+            <span class="icon md-calendar"></span>
         </span>
-        <input type="text" class="form-control" data-plugin="timepicker" name="SARR_ETD[]" />
-      </div>
     </div>
-    <!-- End Example Basic -->
   </div>
 <div class="row">
   <div class="form-group form-material col-xs-12, col-md-4">
@@ -144,11 +112,11 @@
 </div>
 
 <div class="row">
-  <div class="form-group form-material col-xs-12 col-md-6">
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
     {!! Form::label("SARR_PUERTO_ID","Arribar al puerto",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_PUERTO_ID', $puertos, $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
   </div>
-  <div class="form-group form-material col-xs-12 col-md-6">
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
     {!! Form::label("SARR_MUELLE_ID","Muelle Solicitado",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_MUELLE_ID', [' -- Selecciona un Puerto -- '], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
   </div>
@@ -170,18 +138,17 @@
   </div>
 </div>
 </fieldset>
-<fieldset>
+{{-- <fieldset>
   <legend>Historial de viaje</legend>
   <div class="row">
     <div class="form-group form-material col-xs-12 col-md-12">
       <label class="form-control-label" for="historial">Últimos diez puertos del itinerario:</label>
-      <!-- Example Basic -->
+      
       <select id="historial" class="form-control" data-plugin="select2" multiple="multiple" name="SARR_HISTORIAL_PUERTOS[]" data-placeholder="Últimos diez puertos">
       </select>
-      <!-- End Example Basic -->
     </div>
   </div>
-</fieldset>
+</fieldset> --}}
 <!--<fieldset>
   <legend>Datos de carga</legend>
   <a class="btn btn-sm btn-primary" data-toggle="site-sidebar" href="javascript:void(0)" title="Nuevo" data-url="../cargas/nuevo">
@@ -196,7 +163,7 @@
   </table>
 
 </fieldset>-->
-<fieldset>
+<fieldset class="raised">
   <legend>Documentos</legend>
 <div class="row">
   <div class="form-group form-material col-xs-12 col-md-4">
@@ -239,4 +206,6 @@
 </div>
 <div class="form-group form-material">
   {!! Form::button("<i class='icon md-boat'></i> Enviar solicitud",["type" => "submit","class"=>"btn btn-primary btn-submit"])!!}
+</div>
+<div class="info">
 </div>

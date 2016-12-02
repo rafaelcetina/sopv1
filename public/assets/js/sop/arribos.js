@@ -1,3 +1,7 @@
+$.ajaxSetup({
+  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+});
+
 $('#SARR_PUERTO_ID').change(function(e){
     $.get("muelles/"+e.target.value+"", function(response, state){
         //console.log(response);
@@ -43,12 +47,19 @@ $("#CARR_TPRODUCTO_ID").change(function (e) {
     });
 })  
 
+$('.datetimepicker').datetimepicker({
+    icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+    }
+});
 
+ 
 
 $("#form").submit(function (e) {
         e.preventDefault();
-        $('.loading').show();
-        //$('.btn-submit').hide();
         var form = $(this);
         var data = new FormData($(this)[0]);
         var url = form.attr("action");
@@ -57,17 +68,21 @@ $("#form").submit(function (e) {
         $("input:checkbox[name=SARR_ACTIVIDADES]:checked").each(function(){
             actividades.push($(this).val());
         });
+        // $('.loading').show();
         
-        for (var i = actividades.length - 1; i >= 0; i--) {
-            console.log(actividades[i]);
-        }
-        console.log(form);
-        console.log(data);
-        $.ajax({
+        $.post({
             type: "POST",
             url: url,
+            beforeSend: function(){
+                $(".loading").show();
+                $(".btn-submit").hide();
+            },
+            complete: function(){
+                $(".loading").hide();
+                //$(".btn-submit").show();
+            },
             data: data,
-            async: false,
+            async: true,
             cache: false,
             contentType: false,
             processData: false,
@@ -83,18 +98,24 @@ $("#form").submit(function (e) {
                             $("#form-" + index + "-error").removeClass("has-danger");
                             $("#" + index + "-error").empty();
                         }
+                        
                     });
-                    $('.loading').hide();
+                    console.log(data.errors);
+                    // $('.loading').hide();
                     $('.btn-submit').show();
                     alertify.error('Ocurrió un error, intente de nuevo');
                 } else {
                     
-                    alertify.success('Registro actualizado correctamente');
+                    alertify.success('Solicitud registrada correctamente, Folio: '+data['Folio']);
                     
+                    $("#form")[0].reset();
+
                     $(".has-error").removeClass("has-danger");
                     $(".help-block").empty();
-                    $('.btn-submit').show();
-                    $('.loading').hide();
+                    $(".info").html('<p>Folio de solicitud: '+data['Folio']+'</p>');
+                    $(".info").append('<a target="_blank" href="../pdf/index/'+data['Folio']+'")?>ver pdf</a>')
+                    //$('.btn-submit').show();
+                    // $('.loading').hide();
                     //$(".btnCerrar").trigger( "click" );
                     
                 }
@@ -151,7 +172,7 @@ $("#form_carga").submit(function (e) {
                     $(".help-block").empty();
                     $('.btn-submit').show();
                     $('.loading').hide();
-                    $(".btnCerrar").trigger( "click" );
+                    $(".btn-back").trigger( "click" );
                     
                 }
             },
@@ -164,21 +185,18 @@ $("#form_carga").submit(function (e) {
     });
 
 
-$.ajaxSetup({
-  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-});
 
 var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', TCAR_NOMBRE:'Tipo de carga', TPRO_NOMBRE:'Descripción', CARR_UNIDAD:'Unidades', TPRO_UNIDAD:'Medida'};
 
-var catalogo = {cargas:cargas};
+var catalogo_carga = {cargas:cargas};
 var tabla;
 
-function initDT(table){
-  tabla = table;
+function initDT_cargas(tabla, url, id){
+  id=id;
   html ='<tr>';
   campos=[];
   i=0;
-  $.each(catalogo[tabla], function( index, value ) {
+  $.each(catalogo_carga[tabla], function( index, value ) {
     html += '<th>'+value+'</th>';
     campos.splice(i, 0, {data: index});
     i++;
@@ -187,14 +205,14 @@ function initDT(table){
 
   campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false} );
 
-  $('thead').html(html);
-  $('tfoot').html(html);
+  $('#'+tabla+'-table thead').html(html);
+  $('#'+tabla+'-table tfoot').html(html);
 
   var dt = $('#'+tabla+'-table').DataTable({
     processing: false,
     serverSide: true,
-    language: { url: 'http://localhost:8000/localisation/spanish.json' },
-    ajax: 'http://localhost:8000/'+tabla+'/data',
+    language: { url: url+'/localisation/spanish.json' },
+    ajax: url+'/cargas/data/'+id,
     columns: campos,
     dom: 'Bfrtip',
     buttons: [
@@ -205,7 +223,7 @@ function initDT(table){
     ]
   });
   
-$("tbody").on('click', '.delete', function(e) {
+$("#"+tabla+"-table tbody").on('click', '.delete', function(e) {
 alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?",
   function(){
 
@@ -213,7 +231,9 @@ alertify.confirm("<i class='icon md-delete'></i> Eliminar elemento?",
     //Refresh
     refreshDT(tabla);
   });
-});   
+}); 
+
+
 }
 
 function refreshDT(tabla) {

@@ -26,7 +26,12 @@ class TproductoController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function getIndex(){
-        return view('cat.index',['table' => 'tproductos']);
+        if(\Request::ajax()) {
+            return view('cat.content',['table' => 'tproductos', 'ajax' => 1]);
+        } else {
+            return view('cat.index',['table' => 'tproductos']);
+           // return view('home');
+        }
     }
 
     public function anyData(){
@@ -37,8 +42,8 @@ class TproductoController extends Controller{
         return Datatables::of($tproductos)
 
             ->addColumn('action', function ($tpro) {
-                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="tproductos/update/'.$tpro->TPRO_ID.'" class="btn btn-xs btn-success"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$tpro->MUEL_ID.'" class="btn btn-xs btn-danger delete"><i class="icon md-delete"></i></a>';
+                return '<a data-toggle="site-sidebar" href="javascript:;" data-url="tproductos/update/'.$tpro->TPRO_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$tpro->TPRO_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

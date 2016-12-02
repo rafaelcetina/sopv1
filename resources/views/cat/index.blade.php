@@ -9,4 +9,9 @@
 <!-- End Page -->
   @include('cat.content')
 @endsection
-    
+@push('scripts')
+<script>
+  var sop_dt_<?=$table;?> = new sop_datatable('<?=url('/catalogos');?>', '<?=$table;?>');
+  sop_dt_<?=$table;?>.initDt('<?=$table;?>');
+</script>
+@endpush

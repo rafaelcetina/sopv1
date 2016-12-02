@@ -12,6 +12,7 @@ use App\sop_Tipo_trafico;
 use App\sop_Puerto;
 use App\sop_Muelle;
 use App\sop_Solicitudes_arribo;
+use App\sop_Tproducto;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 
@@ -37,11 +38,27 @@ class ControlArriboController extends Controller
         return view('home');
     }
   
+    public function getTproductos(Request $request, $id){
+        if ($request->ajax()) {
+            $tproductos = sop_Tproducto::tproductos($id);
+            return response()->json($tproductos);
+        }
+    }
 
+    public function getUnidad(Request $request, $id){
+        if ($request->ajax()) {
+            $tproducto = sop_Tproducto::tproducto_uni($id);
+            return response()->json($tproducto);
+        }
+    }
 
     public function getSolicitudes(){
-        $data = ['table'=>'solicitudes'];
-        return view('control_arribos/solicitudes',$data);
+        
+        if(\Request::ajax()) {
+            return view('control_arribos/content',['table' => 'solicitudes', 'ajax'=> 1]);
+        } else {
+            return view('control_arribos/solicitudes',['table'=>'solicitudes']);
+        }
     }
 
     public function anyData(){
@@ -55,8 +72,10 @@ class ControlArriboController extends Controller
 
         ->addColumn('action', function ($sol) {
                 return '
-                    <a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
-                    <a href="#" data-id="'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="../cargas/cargas/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-boat"></i></a>
+
+                <a data-toggle="site-sidebar" href="javascript:;" data-url="solicitudes/update/'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+                <a href="#" data-id="'.$sol->SARR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
             ->make(true);
     }

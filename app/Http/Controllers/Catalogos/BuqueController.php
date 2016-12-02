@@ -26,20 +26,36 @@ class BuqueController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function getIndex(){
-        return view('cat.index',['table' => 'buques']);
+        if(\Request::ajax()) {
+            return view('cat.content',['table' => 'buques', 'ajax' => 1]);
+        } else {
+            return view('cat.index',['table' => 'buques']);
+           // return view('home');
+        }
+    }
+
+    public function getBandera($ban){
+        return view('buques.bandera', ['bandera'=> $ban]);
     }
 
     public function anyData(){
 	    $buques = sop_Buque::leftJoin('SOP_TIPO_BUQUES', 'SOP_BUQUES.BUQU_TIPO_BUQUE', '=', 'SOP_TIPO_BUQUES.TIBU_ID')
-            ->select('SOP_BUQUES.*', 'SOP_TIPO_BUQUES.TIBU_NOMBRE');
+            ->leftJoin('SOP_PAISES', 'SOP_BUQUES.BUQU_BANDERA', '=', 'SOP_PAISES.PAIS_ID')
+            ->select('SOP_BUQUES.*', 'SOP_TIPO_BUQUES.TIBU_NOMBRE', 'SOP_PAISES.PAIS_BANDERA');
             
         return Datatables::of($buques)
 
+        // ->editColumn('BUQU_BANDERA', function($buq){
+        //     return '<img src="buques/bandera/'.$buq->PAIS_BANDERA.'" />';
+        // })
+
+
         ->addColumn('action', function ($buq) {
-            return '
-                <a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
+            return '<a data-toggle="site-sidebar" href="javascript:;" data-url="buques/update/'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
                 <a href="#" data-id="'.$buq->BUQU_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
             })
+
+        
             ->make(true);
     }
 
