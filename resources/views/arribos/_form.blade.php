@@ -2,24 +2,19 @@
 <fieldset>
   <legend>Datos de la embarcación</legend>
 <div class="row">
-  <div class="form-group form-material col-xs-12 col-md-3 col-lg-3">
+  
+  <div class="form-group form-material col-xs-12 col-md-4">
+    {!! Form::label("SARR_TIPO_BUQUE","Tipo de Embarcación",["class"=>"form-control-label"]) !!}
+    {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
+  </div>
+
+  <div class="form-group form-material col-xs-12 col-md-5">
     {!! Form::label("SARR_BUQUE_ID","Embarcación",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_BUQUE_ID', ['Seleciona una opcion'], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
   </div>
 
-  <div class="form-group form-material col-xs-12 col-md-3 col-lg-3">
-    {!! Form::label("SARR_TIPO_BUQUE","Tipo de Embarcación",["class"=>"form-control-label"]) !!}
-    {!! Form::select('SARR_TIPO_BUQUE', $types, $opcion, ["class"=> "form-control required", "data-plugin"=> "select2", "required"] ) !!}
-  </div>
- {{-- </div> --}}
-    
-  <div class="form-group form-material col-xs-12 col-md-2 col-lg-2">
-    <label class="form-control-label" for="SARR_BUQUE_VIAJE">Viaje:</label>
-    <input type="text" class="form-control" required="" id="SARR_BUQUE_VIAJE" name="SARR_BUQUE_VIAJE"
-    placeholder="" autocomplete="off" />
-  </div>
-  <div class="form-group form-material col-xs-6 col-md-2 col-lg-1">
-    <button type="button" class="btn btn-primary">Viajes Buque</button>
+  <div class="form-group form-material col-xs-12 col-md-3">
+    <br><button type="button" class="btn btn-primary">Viajes Buque</button>
   </div>
 </div>
 <div class="row">
@@ -27,11 +22,11 @@
     {!! Form::label("SARR_TRAFICO_CLAVE","Trafico de Buque",["class"=>"form-control-label"]) !!}
     {!! Form::select('SARR_TRAFICO_CLAVE', $trafico, $opcion, ["class"=> "form-control required"] ) !!}
   </div>
-  <div class="form-group form-material col-xs-12 col-md-8">
+  <div class="form-group form-material col-xs-12 col-md-8" id="form-SARR_ACTIVIDADES-error">
     <label class="form-control-label" for="SARR_ACTIVIDADES">Actividades en el puerto:</label>
     <div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
-        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="carga" value="CARGA">
+        <input type="checkbox" name="SARR_ACTIVIDADES[]" id="carga" value="CARGA" >
         <label for="carga">Carga</label>
       </div>
       <div class="checkbox-custom checkbox-default checkbox-inline">
@@ -69,7 +64,7 @@
   <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de arribo (ETA):</label>
     <div class='input-group date datetimepicker' id='datetimepicker1'>
-        <input type='text' class="form-control" name="SARR_ETA" />
+        <input type='text' class="form-control" required=""  name="SARR_ETA" />
         <span class="input-group-addon">
             <span class="icon md-calendar"></span>
         </span>
@@ -78,7 +73,7 @@
   <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de atraque (ETB):</label>
     <div class='input-group date datetimepicker' id='datetimepicker1'>
-        <input type='text' class="form-control" name="SARR_ETB" />
+        <input type='text' class="form-control" required="" name="SARR_ETB" />
         <span class="input-group-addon">
             <span class="icon md-calendar"></span>
         </span>
@@ -87,20 +82,33 @@
   <div class="form-group form-material col-xs-4 col-md-4">
     <label class="form-control-label" for="">Tiempo estimado de salida (ETD):</label>
     <div class='input-group date datetimepicker' id='datetimepicker1'>
-        <input type='text' class="form-control" name="SARR_ETD" />
+        <input type='text' class="form-control" required="" name="SARR_ETD" />
         <span class="input-group-addon">
             <span class="icon md-calendar"></span>
         </span>
     </div>
   </div>
+
 <div class="row">
-  <div class="form-group form-material col-xs-12, col-md-4">
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
+    {!! Form::label("SARR_PUERTO_ID","Arribar al puerto",["class"=>"form-control-label"]) !!}
+    {!! Form::select('SARR_PUERTO_ID', $puertos, $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
+  </div>
+  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6" id="form-SARR_MUELLE_ID-error">
+    {!! Form::label("SARR_MUELLE_ID","Muelle Solicitado",["class"=>"form-control-label"]) !!}
+    {!! Form::select('SARR_MUELLE_ID', [' -- Selecciona un Puerto -- '], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2", "required"] ) !!}
+    <span id="SARR_MUELLE_ID-error"></span>
+  </div>
+</div>
+
+<div class="row">
+  {{-- <div class="form-group form-material col-xs-12, col-md-4">
     <label class="form-control-label" for="SARR_BANDA_ATRAQUE">Banda de atraque:</label>
     <select name="SARR_BANDA_ATRAQUE" id="" class="form-control">
       <option value="BABOR">BABOR</option>
       <option value="ESTRIBOR">ESTRIBOR</option>
     </select>
-  </div>
+  </div> --}}
   <div class="form-group form-material col-xs-12, col-md-4">
     <label class="form-control-label" for="SARR_CALADA_POPA">Calada Popa Atraque:</label>
     <input type="text" class="form-control" name="SARR_CALADA_POPA" data-plugin="TouchSpin" data-min="0" data-max="100" data-step="0.5" data-decimals="2" data-boostat="5" data-maxboostedstep="10" data-postfix="Popa Pies" value="10" />
@@ -111,16 +119,6 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
-    {!! Form::label("SARR_PUERTO_ID","Arribar al puerto",["class"=>"form-control-label"]) !!}
-    {!! Form::select('SARR_PUERTO_ID', $puertos, $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
-  </div>
-  <div class="form-group form-material col-xs-12 col-md-6 col-lg-6">
-    {!! Form::label("SARR_MUELLE_ID","Muelle Solicitado",["class"=>"form-control-label"]) !!}
-    {!! Form::select('SARR_MUELLE_ID', [' -- Selecciona un Puerto -- '], $opcion, ["class"=> "form-control required", "data-plugin"=>"select2"] ) !!}
-  </div>
-</div>
 <div class="row">
   <div class="form-group form-material col-xs-12 col-md-4">
     <label class="form-control-label" for="SARR_DESTINO">Destino:</label>

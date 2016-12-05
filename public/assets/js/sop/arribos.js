@@ -64,6 +64,15 @@ $("#form").submit(function (e) {
         var data = new FormData($(this)[0]);
         var url = form.attr("action");
         //console.log($('#historial').select2('data'));
+
+        checked = $("input[name=SARR_ACTIVIDADES]:checked").length;
+
+        if(!checked) {
+          alertify.error('Selecciona al menos una actividad a realizar');
+          $("#form-SARR_ACTIVIDADES-error").addClass("has-danger");
+          return false;
+        }
+
         var actividades = new Array();
         $("input:checkbox[name=SARR_ACTIVIDADES]:checked").each(function(){
             actividades.push($(this).val());
@@ -79,7 +88,7 @@ $("#form").submit(function (e) {
             },
             complete: function(){
                 $(".loading").hide();
-                //$(".btn-submit").show();
+                $(".btn-submit").show();
             },
             data: data,
             async: true,
@@ -88,11 +97,16 @@ $("#form").submit(function (e) {
             processData: false,
             success: function (data) {
                 if (data.fail) {
-                    $('#form_add input.required').each(function () {
+                    console.log("FAILS");
+                    //console.log(data.length());
+                    //for(i=0; i<data.length)
+                    $('#form .required').each(function () {
                         index = $(this).attr('name');
                         if (index in data.errors) {
+                            alertify.error(data.errors[index]);
                             $("#form-" + index + "-error").addClass("has-danger");
                             $("#" + index + "-error").html(data.errors[index]);
+                            $("#" + index + "-error").addClass("has-danger");
                         }
                         else {
                             $("#form-" + index + "-error").removeClass("has-danger");
@@ -113,7 +127,7 @@ $("#form").submit(function (e) {
                     $(".has-error").removeClass("has-danger");
                     $(".help-block").empty();
                     $(".info").html('<p>Folio de solicitud: '+data['Folio']+'</p>');
-                    $(".info").append('<a target="_blank" href="../pdf/index/'+data['Folio']+'")?>ver pdf</a>')
+                    $(".info").append('<a class="btn btn-primary" target="_blank" href="../pdf/index/'+data['Folio']+'")?>ver pdf</a>')
                     //$('.btn-submit').show();
                     // $('.loading').hide();
                     //$(".btnCerrar").trigger( "click" );

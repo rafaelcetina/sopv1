@@ -17,7 +17,8 @@
         <div class="titulo">ADMINISTRACIÓN PORTUARIA INTEGRAL DE QUINTANA ROO S.A. DE C.V.</div>
         <div class="titulo">FORMATO DE SOLICITUD DE ESPACIO DE ATRAQUE O FONDEO</div>
         <div class="titulo">API-QROO-AF-02</div>
-        <div class="titulo sub">Rev.1 Fecha 01/31/2016</div>
+        <div class="titulo sub">Rev.1 Fecha 01/31/2016</div><br>
+        <div class="folio">FOLIO: <span class="campo">{{ $folio }}</span></div>
         <div class="date">FECHA: <span class="campo">{{ $date }}</span></div>
       </div>
       <div class="datos">
@@ -74,8 +75,8 @@
         <div class="label">OPERACIONES A REALIZAR EN EL PUERTO: <span class="campo"> {{ str_pad(implode(", ", $SARR_ACTIVIDADES), 55-sizeof(implode(", ", $SARR_ACTIVIDADES)), "_", STR_PAD_BOTH) }}</span></div>
       </div>
       <div class="footer">
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->merge(url('/assets/img/logo_api.png'), .2, true)->size(120)->generate($invoice  )) !!} ">
-        <p>CADENA DE VALIDACIÓN: <span class="cadena"> {{ $invoice }} </span></p>
+        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->merge(url('/assets/img/logo_api.png'), .2, true)->size(120)->generate($folio  )) !!} ">
+        <p class="cadena"><b>CADENA DE VALIDACIÓN:</b><span class=""> {{ $invoice }} </span></p>
       </div>
     </main>
   </body>

@@ -16,8 +16,11 @@
     </div>
   </div>
 </div> 
-
-<script type="text/javascript">
+<?php
+  if(isset($ajax)){
+?>
+  <script src="{{asset('assets/js/sop/arribos.js')}}"></script>
+  <script type="text/javascript">
   $('input, select').each(function() {
     var term = $(this).attr('data-plugin');
       //alert(term);
@@ -45,5 +48,7 @@
 
       }
   });
-</script>   
-<script src="{{asset('assets/js/sop/arribos.js')}}"></script>
+  </script>   
+<?php
+}
+?>
