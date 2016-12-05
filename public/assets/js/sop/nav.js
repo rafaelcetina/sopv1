@@ -16,19 +16,15 @@ function ajaxLoad(filename, content) {
 	content = typeof content !== 'undefined' ? content : 'content';
 	
 	//$('.loading').show();
-	$.ajax({
+	$.post({
 		type: "GET",
 		url: filename,
-		contentType: false,
-		success: function (data) {
-			$("#" + content).html(data);
+		contentType: false
+	})
+	.done(function(data){
+		$("#" + content).html(data);
 			$('.loading').hide();
 			window.history.replaceState(data, "Menu:"+filename, filename);
 			NProgress.done();
-		},
-		error: function (xhr, status, error) {
-			alert(xhr.responseText);
-			NProgress.done();
-		}
-	});
+	})
 }

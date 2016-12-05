@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Mail;
+use Crypt;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -72,19 +73,21 @@ class ArriboController extends Controller
 
     public function getNuevo(Request $request){
         
-        if (!$request->session()->has('solicitud_id_tmp')) {
-            Auth::user()->id;
-            $solicitud_id_tmp = random_int(111, 999).Auth::user()->id;
-            // Store a piece of data in the session...
-            session(['solicitud_id_tmp' => $solicitud_id_tmp]);
-        }
+        // if (!$request->session()->has('solicitud_id_tmp')) {
+        //     Auth::user()->id;
+        //     $solicitud_id_tmp = random_int(111, 999).Auth::user()->id;
+        //     // Store a piece of data in the session...
+        //     session(['solicitud_id_tmp' => $solicitud_id_tmp]);
+        // }
 
         $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
         
         $puertos = sop_Puerto::lists('PUER_NOMBRE','PUER_ID');
         $puertos->prepend(' -- Seleccione una Opción -- ', '');
 
-        $types = sop_Tipo_buque::lists('TIBU_NOMBRE','TIBU_ID');
+        $types = sop_Tipo_buque::leftJoin('SOP_TBUQUES_USUARIOS', 'TBUS_TIBU_ID', '=', 'TIBU_ID')
+        ->where('TBUS_USUA_ID', '=', Auth::user()->id)
+        ->lists('TIBU_NOMBRE','TIBU_ID');
         $types->prepend(' -- Seleccione una Opción -- ', '');
 
         $tcargas = sop_Tcarga::lists('TCAR_NOMBRE','TCAR_ID');
@@ -98,7 +101,9 @@ class ArriboController extends Controller
             'tcargas' => $tcargas,
                 ];
 
+
         if(\Request::ajax()) {
+            $data['ajax'] = 1;
            return view('arribos/content_nuevo', $data);
         } else {
             return view('arribos/nuevo', $data);
@@ -135,11 +140,17 @@ class ArriboController extends Controller
     }
 
     public function postNuevo(){
-        $validator = Validator::make(Input::all(), [
-            "SARR_BUQUE_VIAJE"  => "unique:SOP_SOLICITUDES_ARRIBOS",
-            "SARR_BUQUE_ID"  => "required",
+        $messages = [
+            'SARR_MUELLE_ID.unique'  => 'EL MUELLE ESTA OCUPADO',
+            
+        ];
 
-        ]);
+        $validator = Validator::make(Input::all(), [
+            "SARR_FOLIO"  => "unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_BUQUE_ID"  => "required",
+            "SARR_MUELLE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+
+        ], $messages);
         if ($validator->fails()) {
             return array(
                 'fail' => true,
@@ -150,13 +161,11 @@ class ArriboController extends Controller
         $Sarr = new sop_Solicitudes_arribo();
         $Sarr->SARR_BUQUE_ID        = Input::get('SARR_BUQUE_ID');
         $Sarr->SARR_USER_ID         = Auth::user()->id;
-        $Sarr->SARR_BUQUE_VIAJE     = Input::get('SARR_BUQUE_VIAJE');
         $Sarr->SARR_TRAFICO_CLAVE   = Input::get('SARR_TRAFICO_CLAVE');
         $Sarr->SARR_ACTIVIDADES     = Input::get('SARR_ACTIVIDADES');
         $Sarr->SARR_ETA             = Input::get('SARR_ETA');
         $Sarr->SARR_ETB             = Input::get('SARR_ETB');
         $Sarr->SARR_ETD             = Input::get('SARR_ETD');
-        $Sarr->SARR_BANDA_ATRAQUE   = Input::get('SARR_BANDA_ATRAQUE');
         $Sarr->SARR_CALADA_POPA     = Input::get('SARR_CALADA_POPA');
         $Sarr->SARR_CALADA_PROA     = Input::get('SARR_CALADA_PROA');
         $Sarr->SARR_PUERTO_ID       = Input::get('SARR_PUERTO_ID');
@@ -167,14 +176,21 @@ class ArriboController extends Controller
         $Sarr->SARR_HISTORIAL_PUERTOS = Input::get('SARR_HISTORIAL_PUERTOS');
         $Sarr->SARR_CREW_LIST       = Input::get('SARR_CREW_LIST');
 
-        $folio = 'API-QR-'.Auth::user()->id.'-'.Input::get('SARR_BUQUE_VIAJE');
+        // Generar Folio
+        // API-QROO-BUQUE-ETA
+        $fecha = Input::get('SARR_ETA');
+        $chars = array("/", " ", ":");
+        $folio = 'API-QROO-'.Input::get('SARR_BUQUE_ID').'-'.str_replace($chars,"",$fecha);
+        
         $Sarr->SARR_FOLIO = $folio;
+
+
         
         $Sarr->save();
 
-        $data = $this->getData($folio);
+        $data = $this->getDatos($folio);
         $date = date('d/m/Y');
-        $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
+        $invoice = Crypt::encrypt(Crypt::encrypt($folio));
         
         $data['date'] = $date;
         $data['invoice'] = $invoice;
@@ -206,7 +222,7 @@ class ArriboController extends Controller
 
 
     public function getPDF($folio){
-        $data = $this->getData($folio);
+        $data = $this->getDatos($folio);
         $date = date('d/m/Y');
         $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
         
@@ -216,31 +232,21 @@ class ArriboController extends Controller
         $data['tel'] = 'No especificado';
         $data['folio'] = $folio;
 
-        // $view =  \View::make('pdf.sarr', compact('data', 'date', 'invoice'))->render();
-        //var_dump($data);
         $view = view('pdf.sarr', $data)->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-
         
         $pdf->save('../storage/pdf/sarr-'.$folio.'.pdf');
-        //return $pdf->stream('invoice');
-        //return $pdf->download('invoice');
+        
     }
 
-     public function getData($folio) {
-        $data = sop_Solicitudes_arribo::leftJoin('SOP_BUQUES', 'BUQU_ID', '=', 'SARR_BUQUE_ID')
-            
+     public function getDatos($folio) {
+        $data = sop_Solicitudes_arribo::leftJoin('SOP_BUQUES', 'BUQU_ID', '=', 'SARR_BUQUE_ID')            
             ->leftJoin('SOP_PUERTOS', 'SARR_PUERTO_ID', '=', 'PUER_ID')
-            
             ->leftJoin('SOP_MUELLES', 'SARR_MUELLE_ID', '=', 'MUEL_ID')
-            
             ->leftJoin('SOP_TIPO_BUQUES', 'TIBU_ID', '=', 'BUQU_TIPO_BUQUE')
-            
             ->leftJoin('SOP_PAISES', 'BUQU_BANDERA', '=', 'PAIS_ID')
-
             ->leftJoin('users', 'users.id', '=', 'SARR_USER_ID')
-            
             ->where('SARR_FOLIO', '=', $folio)
 
             ->select('SOP_SOLICITUDES_ARRIBOS.*', 'SOP_BUQUES.*',

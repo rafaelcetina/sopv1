@@ -47,13 +47,17 @@ var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcarg
     $('#'+tabla+'-table thead').html(html);
     $('#'+tabla+'-table tfoot').html(html);
 
-    if(tabla == 'solicitudes'){
-      urlData= url+'/data/'
+    
+
+    if(tabla == "solicitudes"){
+      urlData= url+'/'+'data';
     }else if(id!=''){
-      urlData= url+'/cargas/data/'+id
+      urlData= url+'/cargas/data/'+id;
     }else{
-      urlData= url+'/'+tabla+'/data'
+      urlData= url+'/'+tabla+'/data';
     }
+
+    console.log(urlData);
 
 
 

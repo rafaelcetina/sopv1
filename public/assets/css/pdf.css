@@ -64,6 +64,10 @@ img.logo{
 	width: 20%;
 	float:right;
 }
+.folio{
+	width: 35%;
+	float: left;
+}
 
 
 .campo{
@@ -92,10 +96,21 @@ img.logo{
 	position:absolute;
 	bottom: 0;
 	font-size: .7em;
+	text-align: left;
 }
-
+.footer img{
+	width: 15%;
+	float: right;
+	margin-top:15px;
+}
 .cadena{
-	background-color: rgb(131,234,144);
+	background-color:#bee3d8;
+	/*text-align: center;*/
+	padding: 5px;
+	text-align: left;
+	text-transform: none;
+	word-wrap: break-word;
+	width: 83%;
 }
 
 .setenta{

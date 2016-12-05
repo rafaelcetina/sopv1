@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Mail;
+use Crypt;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\sop_Solicitudes_arribo;
@@ -26,8 +27,8 @@ class PdfController extends Controller
     public function getIndex($folio){
         $data = $this->getData($folio);
         $date = date('d/m/Y');
-        $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
-        
+        $invoice = Crypt::encrypt(Crypt::encrypt($folio));
+    
         $data['date'] = $date;
         $data['invoice'] = $invoice;
         $data['procedencia'] = 'No especificado';
@@ -88,10 +89,13 @@ class PdfController extends Controller
 
 
     public function getSend2(){
+        $folio = 'API-QR-3-094A3';
         $data =  [
             'email'      => 'rafael.cetina@hotmail.com' ,
             'subject'   => 'Solicitud de arribo',
-            'body'   => 'Confirmación de solicitud de arribo - APIQROO',
+            'body'   => 'Confirmación de solicitud de arribo - APIQROO <br> <strong>Folio: </strong>'.$folio.'<br>
+            Conserve su folio para posteriores consultas.
+            ',
             'nombre' => 'Rodolfo'
         ];
     
