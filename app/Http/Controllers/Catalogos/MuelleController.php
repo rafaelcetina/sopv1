@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Catalogos;
 
 use Illuminate\Http\Request;
-use App\sop_Muelle;
-use App\sop_Puerto;
+use App\Sop_muelle;
+use App\Sop_puerto;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +35,7 @@ class MuelleController extends Controller{
 
     public function anyData(){
 
-        $muelles = sop_Muelle::leftJoin('SOP_PUERTOS', 'SOP_MUELLES.MUEL_PUERTO', '=', 'SOP_PUERTOS.PUER_ID')
+        $muelles = Sop_muelle::leftJoin('SOP_PUERTOS', 'SOP_MUELLES.MUEL_PUERTO', '=', 'SOP_PUERTOS.PUER_ID')
             ->select('SOP_MUELLES.*', 'SOP_PUERTOS.PUER_NOMBRE');
             
         return Datatables::of($muelles)
@@ -52,7 +52,7 @@ class MuelleController extends Controller{
         $data = [
             'table' => 'muelles',
             'opcion' => 'null',
-            'puertos' => sop_Puerto::lists('PUER_NOMBRE', 'PUER_ID'),
+            'puertos' => Sop_puerto::lists('PUER_NOMBRE', 'PUER_ID'),
                 ];
 
         return view('muelles.create', $data);
@@ -90,11 +90,11 @@ class MuelleController extends Controller{
     }
 
     public function getUpdate($id){
-        $muelle = sop_Muelle::find($id);
+        $muelle = Sop_muelle::find($id);
         $data = [
             'opcion' => $muelle->MUEL_PUERTO,
             'muelle' => $muelle,
-            'puertos' => sop_Puerto::lists('PUER_NOMBRE', 'PUER_ID'),
+            'puertos' => Sop_puerto::lists('PUER_NOMBRE', 'PUER_ID'),
                 ];
 
         return view('muelles.update', $data);
@@ -105,7 +105,7 @@ class MuelleController extends Controller{
             'MUEL_NOMBRE.unique'  => 'El nombre ya está en uso',
         ];
 
-        $Muelle = sop_Muelle::find($id);
+        $Muelle = Sop_muelle::find($id);
 
         $rules =[];
         
@@ -135,6 +135,6 @@ class MuelleController extends Controller{
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Muelle::destroy($id);
+        Sop_muelle::destroy($id);
     }
 }

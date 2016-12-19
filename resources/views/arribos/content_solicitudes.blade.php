@@ -1,15 +1,15 @@
 <div class="page-header">
-  <h1 class="page-title">Solicitudes de Arribo/Atraque</h1>
+  <h1 class="page-title"><?=$table;?> de Arribo/Atraque</h1>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
     <li class="breadcrumb-item"><a href="javascript:void(0)">Movimientos</a></li>
-    <li class="breadcrumb-item active">Solicitudes</li>
+    <li class="breadcrumb-item active"><?=$table;?></li>
   </ol>
  <br>
 </div>
 <div class="page-content">
   <div class="panel">
-    
+    <button class="btn btn-sm btn-info" id="btnPdf"> <i class="icon md-assignment-check" ></i> Ver Solicitud en PDF</button>
     <div class="panel-body">
       <table class="table datatable-responsive raised w-full" id="<?=$table;?>-table">
         <thead>

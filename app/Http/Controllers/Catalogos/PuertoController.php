@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Catalogos;
 
-use App\sop_Puerto;
+use App\Sop_puerto;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -34,7 +34,7 @@ class PuertoController extends Controller{
 
     public function anyData(){
 
-        return Datatables::of(sop_Puerto::query())
+        return Datatables::of(Sop_puerto::query())
             ->addColumn('action', function ($puerto) {
                 return '<a data-toggle="site-sidebar" href="javascript:;" data-url="puertos/update/'.$puerto->PUER_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
                 <a href="#" data-id="'.$puerto->PUER_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
@@ -65,7 +65,7 @@ class PuertoController extends Controller{
                 'errors' => $validator->getMessageBag()->toArray()
             );
         }
-        $Puerto = new sop_Puerto();
+        $Puerto = new Sop_puerto();
         $Puerto->MUEL_PUERTO = Input::get('MUEL_PUERTO');
         $Puerto->MUEL_NOMBRE = Input::get('MUEL_NOMBRE');
         $Puerto->MUEL_NOMBRELARGO = Input::get('MUEL_NOMBRELARGO');
@@ -79,7 +79,7 @@ class PuertoController extends Controller{
     }
 
     public function getUpdate($id){
-        return view('muelles.update', ['muelle' => sop_Muelle::find($id)]);
+        return view('muelles.update', ['muelle' => Sop_muelle::find($id)]);
     }
 
     public function postUpdate($id){   
@@ -87,7 +87,7 @@ class PuertoController extends Controller{
             'MUEL_NOMBRE.unique'  => 'El nombre ya está en uso',
         ];
 
-        $Muelle = sop_Muelle::find($id);
+        $Muelle = Sop_muelle::find($id);
 
         $rules =[];
         
@@ -117,7 +117,7 @@ class PuertoController extends Controller{
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Muelle::destroy($id);
+        Sop_muelle::destroy($id);
     }
 
 }

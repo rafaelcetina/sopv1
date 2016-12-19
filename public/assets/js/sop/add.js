@@ -1,4 +1,4 @@
-$("#form_add").submit(function (e) {
+    $("#form_add").submit(function (e) {
         e.preventDefault();
         $('.loading').show();
         $('.btn-submit').hide();

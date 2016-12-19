@@ -32,6 +32,11 @@
                   </a>
                 </li>
                 <li class="site-menu-item">
+                  <a class="animsition-link" href="{{ URL::to('catalogos/puertos') }}">
+                    <span class="site-menu-title">PUERTOS</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
                   <a class="animsition-link" href="{{ URL::to('catalogos/tcargas') }}">
                     <span class="site-menu-title">TIPO DE CARGAS</span>
                   </a>
@@ -48,12 +53,6 @@
               <a class="animsition-link" href="{{ URL::to('/usuarios') }}">
                 <i class="site-menu-icon md-accounts" aria-hidden="true"></i>
                 <span class="site-menu-title">USUARIOS</span>
-              </a>
-            </li>
-            <li class="site-menu-item">
-              <a class="animsition-link" href="{{ URL::to('/home/panel') }}">
-                <i class="site-menu-icon md-accounts" aria-hidden="true"></i>
-                <span class="site-menu-title">VISTA 2 - PANEL</span>
               </a>
             </li>
             @endif
@@ -74,7 +73,7 @@
                   </a>
                 </li>
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/programar') }}">
+                  <a class="animsition-link" href="javascript:void(0)">
                     <span class="site-menu-title">CALENDARIZADO</span>
                   </a>
                 </li>
@@ -93,17 +92,17 @@
                   </a>
                 </li>
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/muelles') }}">
+                  <a class="animsition-link" href="javascript:void(0)">
                     <span class="site-menu-title">PROGRAMADOS</span>
                   </a>
                 </li>
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/muelles') }}">
+                  <a class="animsition-link" href="javascript:void(0)">
                     <span class="site-menu-title">CANCELADOS</span>
                   </a>
                 </li>
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/muelles') }}">
+                  <a class="animsition-link" href="{{ URL::to('arribos/historico') }}">
                     <span class="site-menu-title">HISTORICO</span>
                   </a>
                 </li>
@@ -127,7 +126,12 @@
                   </a>
                 </li>
                 <li class="site-menu-item">
-                  <a class="animsition-link" href="{{ URL::to('catalogos/programar') }}">
+                  <a class="animsition-link" href="{{ URL::to('control_arribos/programados') }}">
+                    <span class="site-menu-title">PROGRAMADOS</span>
+                  </a>
+                </li>
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="javascript:void(0)">
                     <span class="site-menu-title">CALENDARIZADO</span>
                   </a>
                 </li>

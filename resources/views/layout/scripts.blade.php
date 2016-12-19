@@ -152,7 +152,7 @@
     'use strict';
     var Site = window.Site;
     $(document).ready(function() {
-      Site.run();
+      Site.run()
     });
   })(document, window, jQuery);
   </script>

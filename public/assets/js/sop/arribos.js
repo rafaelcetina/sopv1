@@ -65,16 +65,17 @@ $("#form").submit(function (e) {
         var url = form.attr("action");
         //console.log($('#historial').select2('data'));
 
-        checked = $("input[name=SARR_ACTIVIDADES]:checked").length;
+        checked = $("input:checkbox:checked").length;
+        console.log(checked);
 
         if(!checked) {
-          alertify.error('Selecciona al menos una actividad a realizar');
           $("#form-SARR_ACTIVIDADES-error").addClass("has-danger");
+          alertify.error('Selecciona al menos una actividad a realizar');
           return false;
         }
 
         var actividades = new Array();
-        $("input:checkbox[name=SARR_ACTIVIDADES]:checked").each(function(){
+        $("input:checkbox:checked").each(function(){
             actividades.push($(this).val());
         });
         // $('.loading').show();
@@ -110,32 +111,39 @@ $("#form").submit(function (e) {
                         }
                         else {
                             $("#form-" + index + "-error").removeClass("has-danger");
+                            $("#-" + index + "-error").removeClass("has-danger");
                             $("#" + index + "-error").empty();
                         }
                         
                     });
                     console.log(data.errors);
+                    
                     // $('.loading').hide();
                     $('.btn-submit').show();
                     alertify.error('Ocurrió un error, intente de nuevo');
                 } else {
-                    
-                    alertify.success('Solicitud registrada correctamente, Folio: '+data['Folio']);
+                    if(data['error']){
+                        alertify.error(data['error']);
+
+                        $(".info").html('<p>'+data['error']+', intente de nuevo.</p>');
+
+                    }else{
+                        alertify.success('Solicitud registrada correctamente, Folio: '+data['Folio']);
                     
                     $("#form")[0].reset();
 
                     $(".has-error").removeClass("has-danger");
                     $(".help-block").empty();
+
+                    
                     $(".info").html('<p>Folio de solicitud: '+data['Folio']+'</p>');
                     $(".info").append('<a class="btn btn-primary" target="_blank" href="../pdf/index/'+data['Folio']+'")?>ver pdf</a>')
                     //$('.btn-submit').show();
                     // $('.loading').hide();
                     //$(".btnCerrar").trigger( "click" );
+                    }
                     
                 }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert(errorThrown);
             }
         });
         //dt.draw();
@@ -156,7 +164,7 @@ $("#form_carga").submit(function (e) {
             type: "POST",
             url: url,
             data: data,
-            async: false,
+            async: true,
             cache: false,
             contentType: false,
             processData: false,
@@ -189,9 +197,6 @@ $("#form_carga").submit(function (e) {
                     $(".btn-back").trigger( "click" );
                     
                 }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert(errorThrown);
             }
         });
         //dt.draw();

@@ -48,13 +48,6 @@
     </div>
   </div>
 
-  <div class="form-group form-material col-xs-4 col-md-4" id="form-CARR_SARR_ID-error">
-    <div class="input-group">
-      <label class="form-control-label" for="CARR_SARR_ID">Folio #:</label>
-      <input type="text" value="<?=$id;?>" readonly="" class="form-control" id="CARR_SARR_ID" name="CARR_SARR_ID" autocomplete="off" required="">
-       <span id="CARR_SARR_ID-error" class="help-block"></span>
-    </div>
-  </div>
       {!! Form::button("<i class='icon md-boat'></i> Agregar carga",["id"=>"btn_carga" ,"type" => "submit","class"=>"btn btn btn-primary btn-waves-effect"])!!}
       <hr>
   {!! Form::close() !!}

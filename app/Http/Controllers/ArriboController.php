@@ -4,31 +4,36 @@ namespace App\Http\Controllers;
 
 use Mail;
 use Crypt;
-use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use App\sop_Tipo_buque;
-use App\sop_Buque;
-use App\sop_Tipo_trafico;
-use App\sop_Puerto;
-use App\sop_Muelle;
-use App\sop_Tcarga;
-use App\sop_Tproducto;
-use App\sop_Solicitudes_arribo;
+use App\Sop_tipo_buque;
+use App\Sop_buque;
+use App\Sop_tipo_trafico;
+use App\Sop_puerto;
+use App\Sop_muelle;
+use App\Sop_tcarga;
+use App\Sop_tproducto;
+use App\Sop_solicitudes_arribo;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
-use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class ArriboController
+ * @package App\Http\Controllers
+ */
 class ArriboController extends Controller
 {
+
+
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * ArriboController constructor .
      */
     public function __construct()
     {
+        /**
+         * Valida inicio de sesión existencia
+         */
         $this->middleware('auth');
     }
 
@@ -37,71 +42,100 @@ class ArriboController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Vista home
+     */
     public function getIndex()
     {
         return view('home');
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * lista de muelles por id de puerto
+     */
     public function getMuelles(Request $request, $id){
         if ($request->ajax()) {
-            $muelles = sop_Muelle::muelles($id);
+            $muelles = Sop_muelle::muelles($id);
             return response()->json($muelles);
         }
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * lista de buques por id de tipo de buque
+     */
     public function getBuques(Request $request, $id){
         if ($request->ajax()) {
-            $buques = sop_Buque::buques($id);
+            $buques = Sop_buque::buques($id);
             return response()->json($buques);
         }
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * lista de productos por id de tipo de producto
+     */
     public function getTproductos(Request $request, $id){
         if ($request->ajax()) {
-            $tproductos = sop_Tproducto::tproductos($id);
+            $tproductos = Sop_tproducto::tproductos($id);
             return response()->json($tproductos);
         }
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * tipo de unidad por id de producto
+     */
     public function getUnidad(Request $request, $id){
         if ($request->ajax()) {
-            $tproducto = sop_Tproducto::tproducto_uni($id);
+            $tproducto = Sop_tproducto::tproducto_uni($id);
             return response()->json($tproducto);
         }
     }
 
-
-    public function getNuevo(Request $request){
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * vista de nuevo arribo
+     */
+    public function getNuevo(){
         
-        // if (!$request->session()->has('solicitud_id_tmp')) {
-        //     Auth::user()->id;
-        //     $solicitud_id_tmp = random_int(111, 999).Auth::user()->id;
-        //     // Store a piece of data in the session...
-        //     session(['solicitud_id_tmp' => $solicitud_id_tmp]);
-        // }
-
-        $solicitud_id_tmp = $request->session()->get('solicitud_id_tmp');
-        
-        $puertos = sop_Puerto::lists('PUER_NOMBRE','PUER_ID');
+        $puertos = Sop_puerto::lists('PUER_NOMBRE','PUER_ID');
         $puertos->prepend(' -- Seleccione una Opción -- ', '');
 
-        $types = sop_Tipo_buque::leftJoin('SOP_TBUQUES_USUARIOS', 'TBUS_TIBU_ID', '=', 'TIBU_ID')
+        $types = Sop_tipo_buque::leftJoin('SOP_TBUQUES_USUARIOS', 'TBUS_TIBU_ID', '=', 'TIBU_ID')
+        /**
+         * Filtro solo los tipos de buques asignados al usuario
+         */
         ->where('TBUS_USUA_ID', '=', Auth::user()->id)
         ->lists('TIBU_NOMBRE','TIBU_ID');
         $types->prepend(' -- Seleccione una Opción -- ', '');
 
-        $tcargas = sop_Tcarga::lists('TCAR_NOMBRE','TCAR_ID');
+        $tcargas = Sop_tcarga::lists('TCAR_NOMBRE','TCAR_ID');
         $tcargas->prepend(' -- Seleccione una Opción -- ', '');
         
         $data = [
+
             'opcion' => 'null',
             'types' => $types,
-            'trafico' => sop_Tipo_trafico::lists('TTRA_NOMBRE', 'TTRA_CLAVE'),
+            'trafico' => Sop_tipo_trafico::lists('TTRA_NOMBRE', 'TTRA_CLAVE'),
             'puertos' => $puertos,
             'tcargas' => $tcargas,
                 ];
 
-
+        /**
+         * Si la petición es por ajax, retorna la vista solo del contenedor
+         * Sino, devuelve la vista completa.
+         */
         if(\Request::ajax()) {
             $data['ajax'] = 1;
            return view('arribos/content_nuevo', $data);
@@ -110,9 +144,16 @@ class ArriboController extends Controller
         }    
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * vista de la lista de solicitudes obtenidas por el id del usuario con sesión iniciada
+     */
     public function getSolicitudes(){
         $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes'];
+        /**
+         * Si la petición es por ajax, retorna la vista solo del contenedor
+         * Sino, devuelve la vista completa.
+         */
         if(\Request::ajax()) {
             $data = ['user_id' => Auth::user()->id, 'table'=>'solicitudes', 'ajax'=>1];
            return view('arribos/content_solicitudes', $data);
@@ -121,11 +162,35 @@ class ArriboController extends Controller
         }   
     }
 
-    public function anyData(){
-        $solicitudes = sop_Solicitudes_arribo::leftJoin('SOP_BUQUES', 'SOP_BUQUES.BUQU_ID', '=', 'SOP_SOLICITUDES_ARRIBOS.SARR_BUQUE_ID')
+    
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * vista de historico de arribos
+     */
+    public function getHistorico(){
+        $data = ['user_id' => Auth::user()->id, 'table'=>'historico'];
+        /**
+         * Si la petición es por ajax, retorna la vista solo del contenedor
+         * Sino, devuelve la vista completa.
+         */
+        if(\Request::ajax()) {
+            $data['ajax']=1;
+            return view('arribos/content_solicitudes', $data);
+        } else {
+            return view('arribos/solicitudes',$data);
+        }   
+    }
+
+    /**
+     * @param int $status
+     * @return mixed
+     * datos para llenar el datatable
+     */
+    public function anyData($status=1){
+        $solicitudes = Sop_solicitudes_arribo::leftJoin('SOP_BUQUES', 'SOP_BUQUES.BUQU_ID', '=', 'SOP_SOLICITUDES_ARRIBOS.SARR_BUQUE_ID')
             ->leftJoin('SOP_PUERTOS', 'SOP_SOLICITUDES_ARRIBOS.SARR_PUERTO_ID', '=', 'SOP_PUERTOS.PUER_ID')
             ->leftJoin('SOP_MUELLES', 'SOP_SOLICITUDES_ARRIBOS.SARR_MUELLE_ID', '=', 'SOP_MUELLES.MUEL_ID')
-            ->where('SARR_USER_ID', '=', Auth::user()->id)
+            ->where([['SARR_USER_ID', '=', Auth::user()->id],['SARR_STATUS','=',$status],])
             ->select('SOP_SOLICITUDES_ARRIBOS.*', 'SOP_BUQUES.BUQU_NOMBRE', 'SOP_PUERTOS.PUER_NOMBRE', 'SOP_MUELLES.MUEL_NOMBRE');
             
         return Datatables::of($solicitudes)
@@ -139,6 +204,10 @@ class ArriboController extends Controller
             ->make(true);
     }
 
+    /**
+     * @return array
+     * procesa la solicitud y devuelve el folio de solicitud
+     */
     public function postNuevo(){
         $messages = [
             'SARR_MUELLE_ID.unique'  => 'EL MUELLE ESTA OCUPADO',
@@ -148,7 +217,7 @@ class ArriboController extends Controller
         $validator = Validator::make(Input::all(), [
             "SARR_FOLIO"  => "unique:SOP_SOLICITUDES_ARRIBOS",
             "SARR_BUQUE_ID"  => "required",
-            "SARR_MUELLE_ID"  => "required|unique:SOP_SOLICITUDES_ARRIBOS",
+            "SARR_MUELLE_ID"  => "required",
 
         ], $messages);
         if ($validator->fails()) {
@@ -158,7 +227,7 @@ class ArriboController extends Controller
             );
         }
         
-        $Sarr = new sop_Solicitudes_arribo();
+        $Sarr = new Sop_solicitudes_arribo();
         $Sarr->SARR_BUQUE_ID        = Input::get('SARR_BUQUE_ID');
         $Sarr->SARR_USER_ID         = Auth::user()->id;
         $Sarr->SARR_TRAFICO_CLAVE   = Input::get('SARR_TRAFICO_CLAVE');
@@ -175,16 +244,26 @@ class ArriboController extends Controller
         $Sarr->SARR_OBSERVACIONES   = Input::get('SARR_OBSERVACIONES');
         $Sarr->SARR_HISTORIAL_PUERTOS = Input::get('SARR_HISTORIAL_PUERTOS');
         $Sarr->SARR_CREW_LIST       = Input::get('SARR_CREW_LIST');
+        $Sarr->SARR_STATUS          = 1;
 
-        // Generar Folio
-        // API-QROO-BUQUE-ETA
+        /**
+         * Generar Folio
+         * API-QROO-[ID_BUQUE]-[ETA]
+         */
         $fecha = Input::get('SARR_ETA');
         $chars = array("/", " ", ":");
         $folio = 'API-QROO-'.Input::get('SARR_BUQUE_ID').'-'.str_replace($chars,"",$fecha);
         
         $Sarr->SARR_FOLIO = $folio;
 
+        $valido = $this->validacion(Input::get('SARR_MUELLE_ID'), Input::get('SARR_ETA'), Input::get('SARR_ETD'));
 
+        if($valido=="ok"){
+            //return ['error' =>false];
+        }else{
+            return ['error' =>$valido];
+            //die();
+        }
         
         $Sarr->save();
 
@@ -199,20 +278,20 @@ class ArriboController extends Controller
         $data['folio'] = $folio;
 
         $view = view('pdf.sarr', $data)->render();
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 
         $data =  [
-            'email'      => 'rafael.cetina@hotmail.com' ,
+            'email'     => 'rafael.cetina@hotmail.com' ,
             'subject'   => 'Solicitud de arribo',
-            'body'   => 'Confirmación de solicitud de arribo - APIQROO <br> Folio: '.$folio,
+            'body'      => 'Confirmación de solicitud de arribo - APIQROO <br> Folio: '.$folio,
             'nombre' => Auth::user()->nombre,
             'pdf' => $pdf
         ];
 
 
         Mail::send('pdf.sarr_email', $data, function ($m) use ($data) {
-            $m->from('rrdc123@gmail.com', 'SOP');
+            $m->from('rdzul3@apiqroo.com.mx', 'SOP');
             $m->attachData($data['pdf']->output(), 'Solicitud de arribo.pdf');
             $m->to($data['email'], $data["nombre"])->subject($data['subject']);
         });
@@ -220,28 +299,13 @@ class ArriboController extends Controller
         return ['Folio' => $folio];
     }
 
-
-    public function getPDF($folio){
-        $data = $this->getDatos($folio);
-        $date = date('d/m/Y');
-        $invoice = "API-".md5(date('d/m/Y')).sha1($folio);
-        
-        $data['date'] = $date;
-        $data['invoice'] = $invoice;
-        $data['procedencia'] = 'No especificado';
-        $data['tel'] = 'No especificado';
-        $data['folio'] = $folio;
-
-        $view = view('pdf.sarr', $data)->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        
-        $pdf->save('../storage/pdf/sarr-'.$folio.'.pdf');
-        
-    }
-
+    /**
+     * @param $folio
+     * @return mixed
+     * devuel
+     */
      public function getDatos($folio) {
-        $data = sop_Solicitudes_arribo::leftJoin('SOP_BUQUES', 'BUQU_ID', '=', 'SARR_BUQUE_ID')            
+        $data = Sop_solicitudes_arribo::leftJoin('SOP_BUQUES', 'BUQU_ID', '=', 'SARR_BUQUE_ID')
             ->leftJoin('SOP_PUERTOS', 'SARR_PUERTO_ID', '=', 'PUER_ID')
             ->leftJoin('SOP_MUELLES', 'SARR_MUELLE_ID', '=', 'MUEL_ID')
             ->leftJoin('SOP_TIPO_BUQUES', 'TIBU_ID', '=', 'BUQU_TIPO_BUQUE')
@@ -256,4 +320,41 @@ class ArriboController extends Controller
 
         return $data;
     }
+
+    /**
+    * Validación de muelle disponible
+    * Parametros $muelle, $eta, $etd
+    * devuelve 'ok' si el el muelle esta disponible para la fecha y hora solicitada
+    * devuelve un mesaje de error si no se encuentra disponible el muelle
+    *
+    **/
+    public function validacion($muelle, $eta, $etd) {
+
+        $data = Sop_solicitudes_arribo::where([['SARR_MUELLE_ID', '=', $muelle], ['SARR_STATUS', '=', 1],])
+        ->select('SOP_SOLICITUDES_ARRIBOS.*')
+        ->orderBy('SARR_ETA', 'desc')
+        ->get();
+        foreach ($data as $solicitud) {
+            
+            $eta1 = strtotime($solicitud->SARR_ETA); 
+            $etd1 = strtotime($solicitud->SARR_ETD);
+            $eta2 = strtotime($eta);
+            $etd2 = strtotime($etd);
+
+            if($eta1 > $etd2){
+                // Válido
+            }else{
+                //echo "eta1 es menor que etd2, Barco1 llegará antes de que Barco2 se valla... <br>";
+                if($etd1 < $eta2){
+                    // Válido
+                }else{
+                    //echo "etd1 es mayor que eta2, Barco1, se ira después de que Barco2 llegue...<br>";
+                    $error = "Solicitud no válida, Su embarcación no puede arribar al muelle seleccionado en el horario especificado";
+                    return $error; // Solicitud NO válida
+                }
+                return "ok"; // Solicitud válida
+            } // end else
+        } // end Foreach
+        return "ok";
+    } // end function validación
 }

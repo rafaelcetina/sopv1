@@ -3,6 +3,15 @@
   background-color: #3f51b5;
 }
 
+.fondo2:before{
+  background: url('http://media1.santabanta.com/full1/Vehicles/Ships/ships-20a.jpg') !important;
+  background-position: top center;
+
+}
+
+.fondo2:after{
+  background: rgba(155,155,155,.4) !important;
+}
 
 .dropdown-menu {
   z-index:3000 !important;
@@ -31,17 +40,26 @@ tfoot input {
     background-color: rgba(84, 215, 234, 0.53) !important;
 }
 
-
+.text-break{
+  text-decoration: underline;
+}
+.text-break strong{
+  text-decoration: none !important;
+}
  .loading {
        /* background:transparent url('{{asset('assets/img/spiner.gif')}}') no-repeat center 65%;
         height: 100px;
         width: 80px;
         border-radius: 50px;*/
         position: fixed;
-        left: 50%;
-        top: 50%;
-        margin: -40px 0 0 -50px;
-        z-index: 2000;
+        left: 1%;
+        top: 1%;
+        /*margin: -40px 0 0 -50px;*/
+        padding-top: 20%;
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
         display: none;
     }
   

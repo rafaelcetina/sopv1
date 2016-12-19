@@ -3,43 +3,60 @@ $.ajaxSetup({
 });
 
       
-var solicitudes = {SARR_ID:'Folio', BUQU_NOMBRE:'Embarcación', SARR_BUQUE_VIAJE:'Num de Viaje', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', PUER_NOMBRE: 'Puerto', MUEL_NOMBRE: 'Muelle Solicitado'}
+var solicitudes = {'SARR_FOLIO':'Folio', 'SOP_BUQUES.BUQU_NOMBRE':'Embarcación', SARR_TRAFICO_CLAVE:'Trafico', SARR_ACTIVIDADES:'Actividades', SARR_ETA:'Tiempo Arribo (ETA)', SARR_ETB:'Tiempo Atraque (ETB)', SARR_ETD:'Tiempo Salida (ETD)', 'SOP_PUERTOS.PUER_NOMBRE': 'Puerto', 'SOP_MUELLES.MUEL_NOMBRE': 'Muelle Solicitado'}
 
-var buques = {BUQU_NOMBRE:'Nombre Buque', BUQU_BANDERA:'bandera', TIBU_NOMBRE:'Tipo de Buque', 
+
+var buques = {BUQU_NOMBRE:'Nombre Buque', BUQU_BANDERA:'bandera', 'SOP_TIPO_BUQUES.TIBU_NOMBRE':'Tipo de Buque', 
 BUQU_MATRICULA: 'Matricula', BUQU_NAVIERA: 'Naviera', BUQU_LINEA_NAVIERA: 'Linea naviera'};
 
 var puertos = {PUER_NOMBRE:'Nombre Puerto', PUER_PUERTO_SAP:'Puerto SAP', PUER_CAPITAN:'Capitan de Puerto', 
 PUER_DOCUMENTO_SAP: 'Documento SAP'};
-var muelles = {MUEL_NOMBRE:'Nombre Muelle', PUER_NOMBRE :'Puerto' , MUEL_NOMBRELARGO: 'Nombre largo', 
+
+var muelles = {MUEL_NOMBRE:'Nombre Muelle', 'SOP_PUERTOS.PUER_NOMBRE' :'Puerto' , MUEL_NOMBRELARGO: 'Nombre largo', 
 MUEL_CALADO: 'Calado', MUEL_LONGITUD: 'Longitud', MUEL_DESCRIPCION: 'Descripción', MUEL_TERMINAL: 'Terminal'};
+
 var tcargas = {TCAR_NOMBRE:'Nombre', TCAR_SECTOR: 'Sector'}
-var tproductos = {TPRO_NOMBRE:'Nombre', TPRO_UNIDAD: 'Unidad', TCAR_NOMBRE:'Tipo de Carga'}
 
-var usuarios = {tipo:'Tipo', usuario:'Usuario', email:'E-mail', nombre: 'Nombre', empresa: 'Empresa', rfc: 'RFC', active:'Activo'};
+var tproductos = {TPRO_NOMBRE:'Nombre', TPRO_UNIDAD: 'Unidad', 'SOP_TCARGAS.TCAR_NOMBRE':'Tipo de Carga'}
 
-var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', TCAR_NOMBRE:'Tipo de carga', TPRO_NOMBRE:'Descripción', CARR_UNIDAD:'Unidades', TPRO_UNIDAD:'Medida'};
+var usuarios = {'tipo_usuarios.tipo':'Tipo', usuario:'Usuario', email:'E-mail', nombre: 'Nombre', empresa: 'Empresa', rfc: 'RFC', active:'Activo'};
+
+var cargas = {CARR_TRAFICO_CLAVE:'Trafico', CARR_PELIGRO:'Peligrosa', 'SOP_TCARGAS.TCAR_NOMBRE':'Tipo de carga', 'SOP_TPRODUCTOS.TPRO_NOMBRE':'Descripción', CARR_UNIDAD:'Unidades', 'SOP_TPRODUCTOS.TPRO_UNIDAD':'Medida'};
 
 ////****/////***//// ---- Objeto datatables ----////****////*****//
+
 function sop_datatable(url, tabla, id='') {
 
-var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas, tproductos:tproductos, usuarios: usuarios, cargas: cargas, solicitudes: solicitudes };
+var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcargas, tproductos:tproductos, usuarios: usuarios, cargas: cargas, solicitudes: solicitudes, historico: solicitudes, programados: solicitudes };
 
   this.url = url;
   this.tabla = tabla;
   this.id = id;
-  
+
   this.campos = catalogo[this.tabla];
 
   this.initDt = function(tabla){
     $( ".filtro" ).datepicker();
-
-    html ='<tr>'; campos=[]; i=0;
-
+   html ='<tr>'; campos=[]; i=0;
+    /**
+    * Rellena el encabezado de la tabla
+    **/
     $.each(catalogo[tabla], function( index, value ) {
       html += '<th>'+value+'</th>';
-      campos.splice(i, 0, {data: index});
+
+      var n = index.indexOf(".");
+      if(n!=-1)
+        var str = index.substring(n+1);
+      else
+         str = index;
+    /**
+    * añade las columnas para el datatable en la variable 'campos'
+    **/
+
+      campos.splice(i, 0, {data: str, name: index});
       i++;
     });
+
     
     html +="<th>Acciones</th></tr>";
     campos.splice(i, 0, {data: "action", name: "action", orderable: false, searchable: false} );
@@ -51,14 +68,18 @@ var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcarg
 
     if(tabla == "solicitudes"){
       urlData= url+'/'+'data';
-    }else if(id!=''){
+    }
+    else if(tabla == "historico"){
+      urlData= url+'/'+'data/4';
+    }
+    else if(tabla == "programados"){
+      urlData= url+'/'+'data/2';
+    }
+    else if(id!=''){
       urlData= url+'/cargas/data/'+id;
     }else{
       urlData= url+'/'+tabla+'/data';
     }
-
-    console.log(urlData);
-
 
 
     var dt = $('#'+tabla+'-table').DataTable({
@@ -91,7 +112,7 @@ var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcarg
       ajax: urlData,
       columns: campos,
     });
-
+ 
     $('.filtro').on( 'change', function () {
       var s =$("#start").val();  // 
       var e =$("#end").val();  //
@@ -110,19 +131,45 @@ var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcarg
       });  
 
       $('#'+tabla+'-table tbody').on( 'click', 'tr', function () {
-          $(this).toggleClass('selected');
-      } );
-
-      $('#button').click( function () {
-
-        ids = $.map(dt.rows('.selected').data(), function (item) {
-          return item.SARR_ID;
-        });
-
-        console.log(ids);
-
+          //$(this).toggleClass('selected'); //multiple selection
+          if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            dt.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
       });
 
+
+      $('#btnPdf').click( function () {
+        ids = $.map(dt.rows('.selected').data(), function (item) {
+          return item.SARR_FOLIO;
+        });
+
+        $.each(ids, function( index, value ) {
+            window.open(
+              url+"/../pdf/index/"+value,
+              '_blank' //
+            );
+            
+          });
+        
+      });
+
+
+      $('#btnProgramar').click( function () {
+        ids = $.map(dt.rows('.selected').data(), function (item) {
+          return item.SARR_FOLIO;
+        });
+
+        if(tabla=="solicitudes"){
+          $.each(ids, function( index, value ) {
+            ajaxLoad(url+"/programar/"+value);
+            
+          });
+        }
+      });
   }
   
   this.eliminar = function (tabla, id){
@@ -138,7 +185,6 @@ var catalogo = {buques: buques, muelles: muelles, puertos:puertos, tcargas:tcarg
   }
 
 }
-
 
 ////////////////**************////////////
 $('#SARR_PUERTO_ID').change(function(e){
@@ -164,12 +210,12 @@ $('#SARR_TIPO_BUQUE').change(function(e){
 $('#CARR_TCARGA_ID').change(function(e){
     $.get("tproductos/"+e.target.value+"", function(response, state){
         //console.log(response);
-        $('#CARR_TPRODUCTO_ID').empty();
+        $(this).empty();
         $('#unidad').empty();
         if(response.length > 0)
             $("#unidad").html(response[0].TPRO_UNIDAD);
         for (i=0; i < response.length; i++) {
-            $("#CARR_TPRODUCTO_ID").append("<option value='"+response[i].TPRO_ID+"'>"+response[i].TPRO_NOMBRE+"</option>");
+            $(this).append("<option value='"+response[i].TPRO_ID+"'>"+response[i].TPRO_NOMBRE+"</option>");
             console.log(response[i].TPRO_UNIDAD);
         }
     });
@@ -193,3 +239,25 @@ $('.datetimepicker').datetimepicker({
     }
 });
 
+
+function initPlugins(){
+  
+  $('#btnAprobar').click(function () {
+    $(".loading").fadeIn('fast');
+    $(this).prop('disabled', 'true');
+    setTimeout(function() {
+      $(".loading").fadeOut('fast');
+      $(".info").html('<h2>Arribo programado correctamente</h2>').fadeIn('slow');
+    },2000);
+    folio = $('#folio').val();
+    console.log("Folio aprobado:"+folio);
+
+    $.post( "../aprobar", {id: folio})
+      .done(function(data) {
+      alertify.success('Registro eliminado correctamente'+data);
+    });
+
+  });
+
+
+}

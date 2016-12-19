@@ -1,5 +1,5 @@
 $.ajaxSetup({
-  headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 });
 
 $('.site-menu a.animsition-link').click(function(e){
@@ -7,9 +7,11 @@ $('.site-menu a.animsition-link').click(function(e){
 	//console.log($(this).attr('href'));
 	var str = document.location.href;
 	if(str!= $(this).attr('href')){
-	   ajaxLoad($(this).attr('href'));
+		ajaxLoad($(this).attr('href'));
 	}
 });
+
+
 
 function ajaxLoad(filename, content) {
 	NProgress.start();
@@ -19,12 +21,13 @@ function ajaxLoad(filename, content) {
 	$.post({
 		type: "GET",
 		url: filename,
+		async: true,
 		contentType: false
 	})
 	.done(function(data){
 		$("#" + content).html(data);
-			$('.loading').hide();
-			window.history.replaceState(data, "Menu:"+filename, filename);
-			NProgress.done();
+		$('.loading').hide();
+		window.history.pushState(data, filename, filename);
+		NProgress.done();
 	})
 }

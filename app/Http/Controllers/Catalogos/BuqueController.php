@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Catalogos;
 
 use Illuminate\Http\Request;
-use App\sop_Buque;
-use App\sop_Tipo_buque;
+use App\Sop_buque;
+use App\Sop_tipo_buque;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +39,7 @@ class BuqueController extends Controller{
     }
 
     public function anyData(){
-	    $buques = sop_Buque::leftJoin('SOP_TIPO_BUQUES', 'SOP_BUQUES.BUQU_TIPO_BUQUE', '=', 'SOP_TIPO_BUQUES.TIBU_ID')
+	    $buques = Sop_buque::leftJoin('SOP_TIPO_BUQUES', 'SOP_BUQUES.BUQU_TIPO_BUQUE', '=', 'SOP_TIPO_BUQUES.TIBU_ID')
             ->leftJoin('SOP_PAISES', 'SOP_BUQUES.BUQU_BANDERA', '=', 'SOP_PAISES.PAIS_ID')
             ->select('SOP_BUQUES.*', 'SOP_TIPO_BUQUES.TIBU_NOMBRE', 'SOP_PAISES.PAIS_BANDERA');
             
@@ -64,7 +64,7 @@ class BuqueController extends Controller{
         $data = [
             'table' => 'buques',
             'opcion' => 'null',
-            'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
+            'types' => Sop_tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
                 ];
         return view('buques.create', $data);
     }
@@ -95,7 +95,7 @@ class BuqueController extends Controller{
             );
         }
 
-        $Buque = new sop_Buque();
+        $Buque = new Sop_buque();
         $Buque->BUQU_TIPO_BUQUE = Input::get('BUQU_TIPO_BUQUE');
         $Buque->BUQU_NOMBRE = Input::get('BUQU_NOMBRE');
         $Buque->BUQU_BANDERA = Input::get('BUQU_BANDERA');
@@ -105,12 +105,17 @@ class BuqueController extends Controller{
         return ['aviso' => 'success'];
     }
 
+
+    /**
+    * @return Vista de actualia
+    **/
+
     public function getUpdate($id){
-        $buque = sop_Buque::find($id);
+        $buque = Sop_buque::find($id);
         $data = [
             'opcion' => $buque->BUQU_TIPO_BUQUE,
             'buque' => $buque,
-            'types' => sop_Tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
+            'types' => Sop_tipo_buque::lists('TIBU_NOMBRE', 'TIBU_ID'),
                 ];
         return view('buques.update', $data);
     }
@@ -123,7 +128,7 @@ class BuqueController extends Controller{
             'BUQU_BANDERA.required' => 'La bandera no está espeficada'
         ];
 
-        $Buque = sop_Buque::find($id);
+        $Buque = Sop_buque::find($id);
        
         $rules = ["BUQU_BANDERA" => "required"];
 
@@ -157,6 +162,6 @@ class BuqueController extends Controller{
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Buque::destroy($id);
+        Sop_buque::destroy($id);
     }
 }

@@ -28,9 +28,10 @@
     if(isset($ajax)){
   ?>
   <script>
+    
     var sop_dt_<?=$table;?> = new sop_datatable('<?=url('/catalogos');?>', '<?=$table;?>');
     sop_dt_<?=$table;?>.initDt('<?=$table;?>');
-    console.log(sop_dt_<?=$table;?>);
+    
   </script>
   <?php
   }

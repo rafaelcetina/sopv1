@@ -12,7 +12,7 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-md-6 col-lg-6">
-          <button class="btn btn-sm btn-info" id="button"> <i class="icon md-assignment-check" ></i> Programar Arribo</button>
+          <button class="btn btn-sm btn-info" id="btnProgramar"> <i class="icon md-assignment-check" ></i> Programar Arribo</button>
           <button class="btn btn-sm btn-info" id="button2"> <i class="icon md-block"></i> Cancelar Arribo</button>
         </div><br>
         <div class="col-lg-6 col-md-6">
@@ -33,7 +33,7 @@
       <hr>
       <div class="row">
         <div class="col-lg-12">
-          <table class="table datatable-responsive w-full" id="<?=$table;?>-table">
+          <table class="table datatable-responsive raised w-full" id="<?=$table;?>-table">
             <thead>
             </thead>
             <tfoot>
@@ -48,6 +48,8 @@
   if(isset($ajax)){
 ?>
 <script>
+  //dt.destroy();
+
   var sop_dt_<?=$table;?> = new sop_datatable('<?=url('control_arribos');?>', '<?=$table;?>');
   sop_dt_<?=$table;?>.initDt('<?=$table;?>');
 </script>

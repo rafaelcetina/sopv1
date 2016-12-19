@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Catalogos;
 
-use Illuminate\Http\Request;
-use App\sop_Tproducto;
-use App\sop_Tcarga;
-use App\Http\Requests;
+use App\Sop_tproducto;
+use App\Sop_tcarga;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables;
 
@@ -36,7 +32,7 @@ class TproductoController extends Controller{
 
     public function anyData(){
 
-	    $tproductos = sop_Tproducto::leftJoin('SOP_TCARGAS', 'SOP_TPRODUCTOS.TPRO_TCAR_ID', '=', 'SOP_TCARGAS.TCAR_ID')
+	    $tproductos = Sop_tproducto::leftJoin('SOP_TCARGAS', 'SOP_TPRODUCTOS.TPRO_TCAR_ID', '=', 'SOP_TCARGAS.TCAR_ID')
             ->select('SOP_TPRODUCTOS.*', 'SOP_TCARGAS.TCAR_NOMBRE');
             
         return Datatables::of($tproductos)
@@ -53,7 +49,7 @@ class TproductoController extends Controller{
         $data = [
             'table' => 'tproductos',
             'opcion' => 'null',
-            'tcargas' => sop_Tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
+            'tcargas' => Sop_tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
                 ];
 
         return view('tproductos.create', $data);
@@ -85,7 +81,7 @@ class TproductoController extends Controller{
             );
         }
 
-        $Tproducto = new sop_Tproducto();
+        $Tproducto = new Sop_tproducto();
         $Tproducto->TPRO_NOMBRE = Input::get('TPRO_NOMBRE');
         $Tproducto->TPRO_UNIDAD = Input::get('TPRO_UNIDAD');
         $Tproducto->TPRO_TCAR_ID = Input::get('TPRO_TCAR_ID');
@@ -95,11 +91,11 @@ class TproductoController extends Controller{
     }
 
     public function getUpdate($id){
-        $tproducto = sop_Tproducto::find($id);
+        $tproducto = Sop_tproducto::find($id);
         $data = [
             'opcion' => $tproducto->TPRO_TCAR_ID,
             'tproducto' => $tproducto,
-            'tcargas' => sop_Tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
+            'tcargas' => Sop_tcarga::lists('TCAR_NOMBRE', 'TCAR_ID'),
                 ];
         return view('tproductos.update', $data);
     }
@@ -110,7 +106,7 @@ class TproductoController extends Controller{
             'TPRO_NOMBRE.unique'  => 'El nombre ya está en uso',
         ];
 
-        $Tproducto = sop_Tproducto::find($id);
+        $Tproducto = Sop_tproducto::find($id);
        
         $rules = ["TPRO_UNIDAD" => "required"];
 
@@ -139,6 +135,6 @@ class TproductoController extends Controller{
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Tcarga::destroy($id);
+        Sop_tcarga::destroy($id);
     }
 }

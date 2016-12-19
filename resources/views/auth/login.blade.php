@@ -59,7 +59,7 @@
               <input type="checkbox" id="remember" name="checkbox">
               <label for="inputCheckbox">Recúerdame</label>
             </div>
-            <a class="btn btn-link" href="{{ url('/password/reset') }}">Olvide mi contraseña</a>
+            <a class="btn btn-link" href="#">Olvide mi contraseña</a>
           </div>
           {!! Form::button("<i class='icon md-sign-in'></i> Iniciar",["type" => "submit","class"=>"btn btn-primary btn-block"])!!}
         {!! Form::close() !!}

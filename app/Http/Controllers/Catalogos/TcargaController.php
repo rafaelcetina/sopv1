@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Catalogos;
 
-use Illuminate\Http\Request;
-use App\sop_Tcarga;
-use App\Http\Requests;
+use App\Sop_tcarga;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -34,7 +32,7 @@ class TcargaController extends Controller{
     }
 
     public function anyData(){
-	    return Datatables::of(sop_Tcarga::query())
+	    return Datatables::of(Sop_tcarga::query())
             ->addColumn('action', function ($tcargas) {
                 return '<a data-toggle="site-sidebar" href="javascript:;" data-url="tcargas/update/'.$tcargas->TCAR_ID.'" class="btn btn-sm btn-pure btn-icon"><i class="icon md-edit"></i></a>
                 <a href="#" data-id="'.$tcargas->TCAR_ID.'" class="btn btn-sm btn-pure btn-icon delete"><i class="icon md-delete"></i></a>';
@@ -76,7 +74,7 @@ class TcargaController extends Controller{
             );
         }
 
-        $Tcarga = new sop_Tcarga();
+        $Tcarga = new Sop_tcarga();
         $Tcarga->TCAR_NOMBRE = Input::get('TCAR_NOMBRE');
         $Tcarga->TCAR_SECTOR = Input::get('TCAR_SECTOR');
         $Tcarga->save();
@@ -85,7 +83,7 @@ class TcargaController extends Controller{
     }
 
     public function getUpdate($id){
-        $tcarga = sop_Tcarga::find($id);
+        $tcarga = Sop_tcarga::find($id);
         $data = [
             'tcarga' => $tcarga,
                 ];
@@ -98,7 +96,7 @@ class TcargaController extends Controller{
             'TCAR_NOMBRE.unique'  => 'El nombre ya está en uso',
         ];
 
-        $Tcarga = sop_Tcarga::find($id);
+        $Tcarga = Sop_tcarga::find($id);
        
         $rules = ["TCAR_SECTOR" => "required"];
 
@@ -126,6 +124,6 @@ class TcargaController extends Controller{
 
     public function postDelete(){
         $id = Input::get('id');
-        sop_Tcarga::destroy($id);
+        Sop_tcarga::destroy($id);
     }
 }
